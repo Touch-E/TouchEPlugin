@@ -1,0 +1,61 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "3dc6a42c7727c49bf26508e29b0a0b35f9c7e1ad",
+          "version": "5.8.1"
+        }
+      },
+      {
+        "package": "AWSiOSSDKV2",
+        "repositoryURL": "https://github.com/aws-amplify/aws-sdk-ios-spm.git",
+        "state": {
+          "branch": null,
+          "revision": "a08d3c422d902cf76ba1793af65aa5a4005b2f2c",
+          "version": "2.36.1"
+        }
+      },
+      {
+        "package": "Cosmos",
+        "repositoryURL": "https://github.com/evgenyneu/Cosmos.git",
+        "state": {
+          "branch": null,
+          "revision": "1d722aefaba9eafa22e32da46ce473e051c4e445",
+          "version": "24.0.0"
+        }
+      },
+      {
+        "package": "FSPagerView",
+        "repositoryURL": "https://github.com/olbartek/FSPagerView.git",
+        "state": {
+          "branch": null,
+          "revision": "f07d67c1d0a19cadfb94014d4d9653ccdf25169d",
+          "version": "0.8.3"
+        }
+      },
+      {
+        "package": "NVActivityIndicatorView",
+        "repositoryURL": "https://github.com/ninjaprox/NVActivityIndicatorView.git",
+        "state": {
+          "branch": null,
+          "revision": "121455c4e630fcb95aaefd7e4257b0c2e3cfe6d5",
+          "version": "5.2.0"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "f6afa0132961d593f07970d84e2d8b588c29ea04",
+          "version": "5.19.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

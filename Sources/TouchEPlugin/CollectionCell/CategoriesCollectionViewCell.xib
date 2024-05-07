@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoriesCollectionViewCell" customModule="TouchEPlugin"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Qjp-Nb-ZMa" customClass="CategoriesCollectionViewCell" customModule="TouchEPlugin">
+            <rect key="frame" x="0.0" y="0.0" width="218" height="310"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="218" height="310"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wfR-Dq-3AY">
+                        <rect key="frame" x="0.0" y="2" width="218" height="306"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunset Limited" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZX-6T-EaD">
+                                <rect key="frame" x="0.0" y="284" width="218" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="M8e-8p-a0f"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image 7" translatesAutoresizingMaskIntoConstraints="NO" id="Ul3-WJ-aWG" customClass="UIImageViewX" customModule="TouchEPlugin">
+                                <rect key="frame" x="0.0" y="4" width="218" height="276"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="3ZX-6T-EaD" firstAttribute="leading" secondItem="wfR-Dq-3AY" secondAttribute="leading" id="7XA-Dy-MkE"/>
+                            <constraint firstItem="Ul3-WJ-aWG" firstAttribute="top" secondItem="wfR-Dq-3AY" secondAttribute="top" constant="4" id="8Bb-aV-7ps"/>
+                            <constraint firstAttribute="trailing" secondItem="3ZX-6T-EaD" secondAttribute="trailing" id="Do2-BD-6Gb"/>
+                            <constraint firstItem="Ul3-WJ-aWG" firstAttribute="leading" secondItem="wfR-Dq-3AY" secondAttribute="leading" id="Nq4-8A-r6s"/>
+                            <constraint firstItem="3ZX-6T-EaD" firstAttribute="top" secondItem="Ul3-WJ-aWG" secondAttribute="bottom" constant="4" id="gdO-Ba-tvD"/>
+                            <constraint firstAttribute="bottom" secondItem="3ZX-6T-EaD" secondAttribute="bottom" constant="4" id="uWq-1K-IuT"/>
+                            <constraint firstAttribute="trailing" secondItem="Ul3-WJ-aWG" secondAttribute="trailing" id="ucC-gO-XGZ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="nrV-HL-O8D"/>
+            <constraints>
+                <constraint firstItem="wfR-Dq-3AY" firstAttribute="leading" secondItem="Qjp-Nb-ZMa" secondAttribute="leading" id="Kqz-Q6-P8j"/>
+                <constraint firstItem="wfR-Dq-3AY" firstAttribute="top" secondItem="Qjp-Nb-ZMa" secondAttribute="top" constant="2" id="Tcj-ST-3VC"/>
+                <constraint firstAttribute="bottom" secondItem="wfR-Dq-3AY" secondAttribute="bottom" constant="2" id="pl3-ts-egG"/>
+                <constraint firstAttribute="trailing" secondItem="wfR-Dq-3AY" secondAttribute="trailing" id="rBy-Jb-oPI"/>
+            </constraints>
+            <size key="customSize" width="218" height="310"/>
+            <connections>
+                <outlet property="imgVideo" destination="Ul3-WJ-aWG" id="WTF-Ew-8h3"/>
+                <outlet property="lblName" destination="3ZX-6T-EaD" id="xRj-Zb-fCc"/>
+                <outlet property="titleLBLHeightCON" destination="M8e-8p-a0f" id="xGp-ma-YmV"/>
+            </connections>
+            <point key="canvasLocation" x="253.62318840579712" y="141.29464285714286"/>
+        </collectionViewCell>
+    </objects>
+    <designables>
+        <designable name="Ul3-WJ-aWG">
+            <size key="intrinsicContentSize" width="94" height="129.5"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="image 7" width="94" height="129.5"/>
+    </resources>
+</document>
