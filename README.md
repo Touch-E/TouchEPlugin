@@ -90,3 +90,33 @@ After successfully login save user data in your project like below example.
         Default.set(archivedObject, forKey: "profileData")
     }
 ```
+### Get Movie Data
+Get movie list using getMovieDetail method 
+
+```swift
+    var VideoListData : HomeData?
+    var CartDataARY : CartData?
+    
+    //use this method for get movie list 
+    TouchEPluginVC.shared.getMovieDetail { result in
+        switch result {
+        case .success(let homeData):
+            self.VideoListData = homeData
+            self.dataTBL.reloadData()
+        case .failure(let error):
+            self.ShowAlert1(title: "Error", message: "\(error.localizedDescription)")
+        }
+    }
+    
+    //Use this method for get my cart count         
+    TouchEPluginVC.shared.getCartDataCount { result in
+        switch result {
+        case .success(let cartData):
+            self.CartDataARY = cartData
+            self.cartCountBTN.setTitle("\(self.CartDataARY?.count ?? 0)", for: .normal)
+        case .failure(let error):
+            self.ShowAlert1(title: "Error", message: "\(error.localizedDescription)")
+        }
+    }
+        
+```
