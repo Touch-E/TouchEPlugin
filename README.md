@@ -13,6 +13,7 @@ Once you have your Swift package set up, adding [TouchEPlugin](https://github.co
 ## Usage
 
 In AppDelegate.swift, just import TouchEPlugin framework and enable TouchEPlugin. 
+
 After that First check your server URL is valid or not and User are already login or not in TouchEPlugin using validateURLAndToken method.
  
 ```swift
@@ -52,5 +53,38 @@ import IQKeyboardManagerSwift
         }
         
         return true
+    }
+```
+
+Login using userAuthentication method in which you have to just passed username and password.
+
+After successfully login save user data in your project like below example.
+
+```swift
+    TouchEPluginVC.shared.userAuthentication(username: txtFieldEmail.text ?? "", password: txtFieldPassword.text ?? "") { result in
+            switch result {
+            case .success(let resultValue):
+                print("Operation successful: \(resultValue)")
+                
+                UserToken = resultValue.token
+                UserDefaults.standard.set(UserToken, forKey: "userToken")
+                
+                userTID = resultValue.userId
+                UserDefaults.standard.set(userTID, forKey: "userID")
+
+                profileTData = resultValue.profileData
+                save()
+                
+                //Write here Home Screen Navigation code
+                
+            case .failure(let error):
+                print("Error: \(error)")
+                self.ShowAlert1(title: "Error", message: "Wrong Username and Password")
+            }
+    }
+    //Use save method for save user profile data
+    func save() {
+        let archivedObject = NSKeyedArchiver.archivedData(withRootObject: profileTData)
+        Default.set(archivedObject, forKey: "profileData")
     }
 ```
