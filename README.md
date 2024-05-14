@@ -12,7 +12,7 @@ Once you have your Swift package set up, adding [TouchEPlugin](https://github.co
 
 ## Usage
 
-In AppDelegate.swift, just import TouchEPlugin framework and enable TouchEPlugin. 
+### In AppDelegate.swift, just import TouchEPlugin framework and enable TouchEPlugin. 
 
 After that First check your server URL is valid or not and User are already login or not in TouchEPlugin using validateURLAndToken method.
  
@@ -56,6 +56,7 @@ import IQKeyboardManagerSwift
     }
 ```
 
+### Login 
 Login using userAuthentication method in which you have to just passed username and password.
 
 After successfully login save user data in your project like below example.
