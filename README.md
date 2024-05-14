@@ -128,3 +128,9 @@ Get movie list using getMovieDetail method
     viewcontroller.VideoListData = VideoListData[SelectedIndex]
     self.navigationController?.pushViewController(viewcontroller, animated: true)
 ```
+### Navigation to My Cart Screen
+
+```swift 
+    let viewcontroller = MyCartVC()
+    self.navigationController?.pushViewController(viewcontroller, animated: true)
+```
