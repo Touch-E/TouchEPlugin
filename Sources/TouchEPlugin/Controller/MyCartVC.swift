@@ -25,7 +25,7 @@ public class MyCartVC: UIViewController {
     public struct Identifiers {
         static let kCartSectionCell = "CartSectionCell"
         static let kCartItemCell = "CartItemCell"
-        static let kOrderSummearyCell = "OrderSummearyCell"
+        static let kOrderSummaryCell = "OrderSummaryCell"
         
     }
     var addressListData : AddressData?
@@ -71,7 +71,7 @@ public class MyCartVC: UIViewController {
         cartDataTBL.dataSource = self
         cartDataTBL.register(UINib(nibName: Identifiers.kCartSectionCell, bundle: Bundle.module), forCellReuseIdentifier: Identifiers.kCartSectionCell)
         cartDataTBL.register(UINib(nibName: Identifiers.kCartItemCell, bundle: Bundle.module), forCellReuseIdentifier: Identifiers.kCartItemCell)
-        cartDataTBL.register(UINib(nibName: Identifiers.kOrderSummearyCell, bundle: Bundle.module), forCellReuseIdentifier: Identifiers.kOrderSummearyCell)
+        cartDataTBL.register(UINib(nibName: Identifiers.kOrderSummaryCell, bundle: Bundle.module), forCellReuseIdentifier: Identifiers.kOrderSummaryCell)
     }
     @IBAction func btnProceedToCheckout(_ sender: UIButtonX) {
         if addressListData?.count == nil{
@@ -445,7 +445,7 @@ extension MyCartVC : UITableViewDelegate, UITableViewDataSource {
             }
             return cell
         }else{
-            let cell = cartDataTBL.dequeueReusableCell(withIdentifier: Identifiers.kOrderSummearyCell, for: indexPath) as! OrderSummearyCell
+            let cell = cartDataTBL.dequeueReusableCell(withIdentifier: Identifiers.kOrderSummaryCell, for: indexPath) as! OrderSummaryCell
             cell.selectionStyle = .none
             cell.backUV.layer.cornerRadius = 10
             cell.backUV.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]

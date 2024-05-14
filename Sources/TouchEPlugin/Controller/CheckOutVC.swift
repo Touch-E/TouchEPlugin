@@ -69,9 +69,9 @@ public class CheckOutVC: UIViewController {
         tblCartList.delegate = self
         tblCartList.dataSource = self
         tblCartList.register(UINib(nibName: "CartItemCell", bundle: Bundle.module), forCellReuseIdentifier: "CartItemCell")
-        tblCartList.register(UINib(nibName: "PersonalinformationTBLCell", bundle: Bundle.module), forCellReuseIdentifier: "PersonalinformationTBLCell")
+        tblCartList.register(UINib(nibName: "PersonalInformationTBLCell", bundle: Bundle.module), forCellReuseIdentifier: "PersonalInformationTBLCell")
         tblCartList.register(UINib(nibName: "PaymentDetailsTBLCell", bundle: Bundle.module), forCellReuseIdentifier: "PaymentDetailsTBLCell")
-        tblCartList.register(UINib(nibName: "OrderSummearyCell", bundle: Bundle.module), forCellReuseIdentifier: "OrderSummearyCell")
+        tblCartList.register(UINib(nibName: "OrderSummaryCell", bundle: Bundle.module), forCellReuseIdentifier: "OrderSummaryCell")
         tblCartList.register(UINib(nibName: "PosttoTBLCell", bundle: Bundle.module), forCellReuseIdentifier: "PosttoTBLCell")
         tblCartList.register(UINib(nibName: "CartHeaderView", bundle: Bundle.module), forHeaderFooterViewReuseIdentifier: "CartHeaderView")
         //tblCartList.register(UINib(nibName: "CartSectionCell", bundle: nil), forHeaderFooterViewReuseIdentifier: "CartSectionCell")
@@ -322,7 +322,7 @@ extension CheckOutVC: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PersonalinformationTBLCell", for: indexPath) as! PersonalinformationTBLCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PersonalInformationTBLCell", for: indexPath) as! PersonalInformationTBLCell
             return cell
         }else if indexPath.section == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PosttoTBLCell", for: indexPath) as! PosttoTBLCell
@@ -609,7 +609,7 @@ extension CheckOutVC: UITableViewDelegate, UITableViewDataSource {
             }
             return cell
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderSummearyCell", for: indexPath) as! OrderSummearyCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderSummaryCell", for: indexPath) as! OrderSummaryCell
             cell.selectionStyle = .none
             cell.productCoseLBL.text = "US $\(itemTotalPrice)"
             cell.shippingCoseLBL.text = "US $\(shippingCost)"

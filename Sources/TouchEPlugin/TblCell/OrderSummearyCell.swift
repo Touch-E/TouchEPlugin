@@ -1,12 +1,12 @@
 //
-//  OrderSummearyCell.swift
+//  OrderSummaryCell.swift
 //  Touch E Demo
 //
 //  Created by Kishan on 08/02/24.
 //
 import UIKit
 
-class OrderSummearyCell: UITableViewCell {
+class OrderSummaryCell: UITableViewCell {
 
     
     @IBOutlet weak var backUV: UIViewX!

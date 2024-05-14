@@ -1,5 +1,5 @@
 //
-//  customerReviewCVCell.swift
+//  CustomerReviewCVCell.swift
 //  Touch E Demo
 //
 //  Created by Kishan on 07/02/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 import Cosmos
-class customerReviewCVCell: UICollectionViewCell {
+class CustomerReviewCVCell: UICollectionViewCell {
 
     @IBOutlet weak var ratingCountLBL: UILabel!
     @IBOutlet weak var ratingUV: CosmosView!

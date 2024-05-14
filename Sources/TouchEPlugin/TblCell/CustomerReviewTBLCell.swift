@@ -15,7 +15,7 @@ class CustomerReviewTBLCell: UITableViewCell {
     
     var reviewARY : [Review]?
     public struct Identifiers {
-        static let kcustomerReviewCVCell = "customerReviewCVCell"
+        static let kCustomerReviewCVCell = "CustomerReviewCVCell"
     }
     
     override func awakeFromNib() {
@@ -26,7 +26,7 @@ class CustomerReviewTBLCell: UITableViewCell {
     func Configurecollection(){
         reviewCV.delegate = self
         reviewCV.dataSource = self
-        reviewCV.register(UINib(nibName: Identifiers.kcustomerReviewCVCell, bundle: Bundle.module), forCellWithReuseIdentifier: Identifiers.kcustomerReviewCVCell)
+        reviewCV.register(UINib(nibName: Identifiers.kCustomerReviewCVCell, bundle: Bundle.module), forCellWithReuseIdentifier: Identifiers.kCustomerReviewCVCell)
         
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -42,7 +42,7 @@ extension CustomerReviewTBLCell : UICollectionViewDelegate, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = reviewCV.dequeueReusableCell(withReuseIdentifier: Identifiers.kcustomerReviewCVCell, for: indexPath) as! customerReviewCVCell
+        let cell = reviewCV.dequeueReusableCell(withReuseIdentifier: Identifiers.kCustomerReviewCVCell, for: indexPath) as! CustomerReviewCVCell
         cell.ratingCountLBL.text = "\(reviewARY?[indexPath.row].rating ?? 0)"
         cell.ratingUV.rating = Double(reviewARY?[indexPath.row].rating ?? 0)
         cell.nameLBL.text = reviewARY?[indexPath.row].userName ?? ""

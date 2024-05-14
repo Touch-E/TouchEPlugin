@@ -1,5 +1,5 @@
 //
-//  PersonalinformationTBLCell.swift
+//  PersonalInformationTBLCell.swift
 //  
 //
 //  Created by Jaydip Godhani on 16/04/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PersonalinformationTBLCell: UITableViewCell {
+class PersonalInformationTBLCell: UITableViewCell {
 
     @IBOutlet weak var txtFirstName: UITextFieldX!
     @IBOutlet weak var txtSecoundName: UITextFieldX!
