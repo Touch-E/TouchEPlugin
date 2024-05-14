@@ -13,6 +13,7 @@ Once you have your Swift package set up, adding [TouchEPlugin](https://github.co
 ## Usage
 
 In AppDelegate.swift, just import TouchEPlugin framework and enable TouchEPlugin. 
+After that First check your server URL is valid or not and User are already login or not in TouchEPlugin using validateURLAndToken method.
  
 ```swift
 import IQKeyboardManagerSwift
@@ -26,7 +27,7 @@ import IQKeyboardManagerSwift
         TouchEPluginVC.shared.validateURLAndToken(urlString: urlString, token: userToken) { isURLValid, isTokenValid in
             if isURLValid && isTokenValid {
             
-                 // if user already login then already save user data save in package data profileData,UserID, headersCommon like below example 
+                 // if the user already login then assign save user data to package data profileData,UserID, headersCommon like below example 
             
                     if let archivedObject = UserDefaults.standard.object(forKey:"profileData") as? Data {
                         profileData = NSMutableDictionary(dictionary: NSKeyedUnarchiver.unarchiveObject(with: archivedObject) as! NSMutableDictionary)
