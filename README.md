@@ -90,7 +90,7 @@ After successfully login save user data in your project like below example.
         Default.set(archivedObject, forKey: "profileData")
     }
 ```
-### Get Movie Data
+### Get Movie list Data
 Get movie list using getMovieDetail method 
 
 ```swift
@@ -119,4 +119,12 @@ Get movie list using getMovieDetail method
         }
     }
         
+```
+### Navigation to Movie Details Screen
+
+```swift 
+    let viewcontroller = VideoDetailViewController()
+    viewcontroller.modalPresentationStyle = .custom
+    viewcontroller.VideoListData = VideoListData[SelectedIndex]
+    self.navigationController?.pushViewController(viewcontroller, animated: true)
 ```
