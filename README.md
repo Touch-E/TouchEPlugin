@@ -81,7 +81,6 @@ TouchEPluginVC.shared.userAuthentication(username: txtFieldEmail.text ?? "", pas
                 
         case .failure(let error):
             print("Error: \(error)")
-            self.ShowAlert1(title: "Error", message: "Wrong Username and Password")
         }
 }
 //Use save method for save user profile data
@@ -104,7 +103,7 @@ TouchEPluginVC.shared.getMovieDetail { result in
         self.VideoListData = homeData
         self.dataTBL.reloadData()
     case .failure(let error):
-        self.ShowAlert1(title: "Error", message: "\(error.localizedDescription)")
+        print("Error: \(error)")
     }
 }
     
@@ -115,7 +114,7 @@ TouchEPluginVC.shared.getCartDataCount { result in
         self.CartDataARY = cartData
         self.cartCountBTN.setTitle("\(self.CartDataARY?.count ?? 0)", for: .normal)
     case .failure(let error):
-        self.ShowAlert1(title: "Error", message: "\(error.localizedDescription)")
+        print("Error: \(error)")
     }
 }        
 ```
