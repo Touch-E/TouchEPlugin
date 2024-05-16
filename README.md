@@ -132,3 +132,10 @@ self.navigationController?.pushViewController(viewcontroller, animated: true)
 let viewcontroller = MyCartVC()
 self.navigationController?.pushViewController(viewcontroller, animated: true)
 ```
+
+### Navigation to My Profile Screen
+
+```swift 
+let viewcontroller = ProfileVC()
+self.navigationController?.pushViewController(viewcontroller, animated: true)
+```
