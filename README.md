@@ -18,7 +18,7 @@ In AppDelegate.swift, just import TouchEPlugin framework and enable TouchEPlugin
 After that First check your server URL is valid or not and User are already login or not in TouchEPlugin using validateURLAndToken method.
  
 ```swift
-import IQKeyboardManagerSwift
+import TouchEPlugin
 
 @UIApplicationMain
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
