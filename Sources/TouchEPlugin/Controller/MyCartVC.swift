@@ -45,7 +45,7 @@ public class MyCartVC: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        IQKeyboardManager.shared.enable = true
         // Do any additional setup after loading the view.
         
         if let view = Bundle.module.loadNibNamed("MyCartVC", owner: self, options: nil)?.first as? UIView {
