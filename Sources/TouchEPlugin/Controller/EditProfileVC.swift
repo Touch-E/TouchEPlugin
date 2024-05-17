@@ -57,6 +57,7 @@ class EditProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        IQKeyboardManager.shared.enable = true
         getLanguage()
         getCurrency()
         getCurrentDate()
