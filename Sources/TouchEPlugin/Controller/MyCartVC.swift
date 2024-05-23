@@ -74,12 +74,18 @@ public class MyCartVC: UIViewController {
         cartDataTBL.register(UINib(nibName: Identifiers.kOrderSummaryCell, bundle: Bundle.module), forCellReuseIdentifier: Identifiers.kOrderSummaryCell)
     }
     @IBAction func btnProceedToCheckout(_ sender: UIButtonX) {
-        if addressListData?.count == nil{
+        let dic = profileData
+        let fname = "\(dic.value(forKey: "firstName") ?? "NA")"
+        let lname = "\(dic.value(forKey: "lastName") ?? "NA")"
+        
+        if addressListData?.count == nil || addressListData?.count == 0{
             self.ShowAlert(title: "Error", message: "No shipping address is provided. Go to My Profile > Addresses to add one.")
+        } else if fname == "<null>" || lname == "<null>"{
+            self.ShowAlert(title: "Error", message: "Please complete profile details.")
         } else {
             self.totalCostCalculate()
             if selectedCartDataID.count > 0{
-                let vc = CheckOutVC.storyboardInstance()//mainStoryboard.instantiateViewController(withIdentifier: "CheckOutVC") as! CheckOutVC
+                let vc = mainStoryboard.instantiateViewController(withIdentifier: "CheckOutVC") as! CheckOutVC
                 vc.modalPresentationStyle = .custom
                 vc.selectedCartDataId = selectedCartDataID
                 self.navigationController?.pushViewController(vc, animated: true)

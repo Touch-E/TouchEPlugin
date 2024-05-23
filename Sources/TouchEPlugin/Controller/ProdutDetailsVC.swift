@@ -430,11 +430,20 @@ extension ProdutDetailsVC {
         start_loading()
         self.post_api_request_withJson("\(BaseURLOffice)cart/users/\(UserID)/products", params: params, headers: headersCommon).responseJSON(completionHandler: { response in
             print(response.result)
-            switch response.result {
-            case .success:
-                self.ShowAlert(title: "Success", message: "Product successfully add in cart!")
-            case .failure(let error):
-                self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+            if response.response?.statusCode  == 404{
+                if let json = response.value as? [String: Any],
+                   let message = json["message"] as? String {
+                    self.ShowAlert(title: "Error", message: message)
+                } else {
+                    self.ShowAlert(title: "Error", message: "Not found. The resource doesn't exist.")
+                }
+            }else{
+                switch response.result {
+                case .success:
+                    self.ShowAlert(title: "Success", message: "Product successfully add in cart!")
+                case .failure(let error):
+                    self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+                }
             }
             DispatchQueue.main.async {
                 self.stop_loading()
