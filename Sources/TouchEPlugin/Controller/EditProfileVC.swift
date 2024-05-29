@@ -142,6 +142,16 @@ class EditProfileVC: UIViewController {
         txtLanguage.text = "\(profileData.value(forKey: "language") ?? "NA")"
         txtCurrency.text = "\(profileData.value(forKey: "currency") ?? "NA")"
         
+        let fname = "\(profileData.value(forKey: "firstName") ?? "NA")"
+        let lname = "\(profileData.value(forKey: "lastName") ?? "NA")"
+        let phoneNo = "\(profileData.value(forKey: "phoneNumber") ?? "NA")"
+        
+        if fname == "<null>" || lname == "<null>" || phoneNo == "<null>" {
+            txtFirstName.text = ""
+            txtLastName.text = ""
+            txtPhoneNumber.text = ""
+        }
+        
         let email = "\(profileData.value(forKey: "emailAddress")!)"
         lblUserEmail.text = email
         hideEmailText = maskEmailAddress(email: email)
@@ -238,7 +248,11 @@ class EditProfileVC: UIViewController {
             getS3Response()
           //  imageUploading()
         } else {
-            editProfile()
+            if txtPhoneNumber.text?.isEmpty == true{
+                self.ShowAlert(title: "Error", message: "Please enter phone number!")
+            }else{
+                editProfile()
+            }
         }
     }
     
