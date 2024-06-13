@@ -61,12 +61,15 @@ public class VideoDetailsFromOtherVC: UIViewController {
         }
     }
     @IBAction func playClick_Action(_ sender: UIButton) {
+        rotate_flag = true
         let viewcontroller = VideoViewController()//mainStoryboard.instantiateViewController(withIdentifier: "VideoViewController") as! VideoViewController
         viewcontroller.VideoString = self.VideoListData?.videoURL ?? ""
         viewcontroller.VideoListDic = self.VideoListData
-        viewcontroller.modalPresentationStyle = .overFullScreen
-        //self.present(viewcontroller, animated: true, completion: nil)
-        self.navigationController?.pushViewController(viewcontroller, animated: true)
+        viewcontroller.brandID = "\(self.VideoListData?.brands?[0].id ?? 0)"
+        let nav = UINavigationController(rootViewController: viewcontroller)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
     }
     
 }

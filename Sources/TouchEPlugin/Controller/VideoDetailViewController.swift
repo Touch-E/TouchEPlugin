@@ -62,6 +62,7 @@ public class VideoDetailViewController: UIViewController {
         }
     }
     @IBAction func playClick_Action(_ sender: UIButton) {
+        rotate_flag = true
         let viewcontroller = VideoViewController()//mainStoryboard.instantiateViewController(withIdentifier: "VideoViewController") as! VideoViewController
         viewcontroller.VideoString = self.VideoListData?.videoURL ?? ""
         viewcontroller.VideoListDic = self.VideoListData
