@@ -92,7 +92,31 @@ enum themeFonts : String {
     case regular = "HelveticaNeue"
     case medium = "HelveticaNeue-Medium"
 }
+public protocol OrientationHandler {
+    var rotateFlag: Bool { get set }
+    func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+}
 
+public class DefaultOrientationHandler: OrientationHandler {
+    public var rotateFlag: Bool = false
+
+    public init() {}
+
+    public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if rotateFlag {
+            return .landscape
+        } else {
+            return [.portrait, .landscape]
+        }
+    }
+}
+
+public class OrientationManager {
+    public static let shared = OrientationManager()
+    public var orientationHandler: OrientationHandler = DefaultOrientationHandler()
+    
+    private init() {}
+}
 func themeFont(size : Float,fontname : themeFonts) -> UIFont {
     
     if UIScreen.main.bounds.width <= 320 {

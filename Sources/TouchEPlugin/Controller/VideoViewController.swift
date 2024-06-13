@@ -146,7 +146,7 @@ public class VideoViewController: UIViewController {
         let viewcontroller = MyCartVC.storyboardInstance()
         viewcontroller.modalPresentationStyle = .custom
         viewcontroller.isfromVideo = true
-        rotate_flag = false
+        OrientationManager.shared.orientationHandler.rotateFlag = false
         
         let nav = UINavigationController(rootViewController: viewcontroller)
         nav.isNavigationBarHidden = true
@@ -157,7 +157,7 @@ public class VideoViewController: UIViewController {
         let vc = profileStoryboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         vc.modalPresentationStyle = .custom
         vc.isfromVideo = true
-        rotate_flag = false
+        OrientationManager.shared.orientationHandler.rotateFlag = false
         
         let nav = UINavigationController(rootViewController: vc)
         nav.isNavigationBarHidden = true
@@ -194,7 +194,7 @@ public class VideoViewController: UIViewController {
             viewcontroller.modalPresentationStyle = .custom
             viewcontroller.actorID = currentItemId
             viewcontroller.isfromVideo = true
-            rotate_flag = false
+            OrientationManager.shared.orientationHandler.rotateFlag = false
             
             let nav = UINavigationController(rootViewController: viewcontroller)
             nav.isNavigationBarHidden = true
@@ -205,7 +205,7 @@ public class VideoViewController: UIViewController {
             viewcontroller.modalPresentationStyle = .custom
             viewcontroller.brandID = currentItemId
             viewcontroller.isfromVideo = true
-            rotate_flag = false
+            OrientationManager.shared.orientationHandler.rotateFlag = false
             
             let nav = UINavigationController(rootViewController: viewcontroller)
             nav.isNavigationBarHidden = true
@@ -268,7 +268,7 @@ public class VideoViewController: UIViewController {
         ButtonPlay.setImage(UIImage(named: "play"), for: UIControl.State.normal)
         pauseTimer()
         player!.pause()
-        rotate_flag = false
+        OrientationManager.shared.orientationHandler.rotateFlag = false
         self.dismiss(animated: true)
     }
     @objc func dismissPlayerViewController() {
@@ -608,7 +608,7 @@ extension VideoViewController : UICollectionViewDelegate, UICollectionViewDelega
         viewcontroller.modalPresentationStyle = .custom
         viewcontroller.productID = "\(productDic.id!)"
         viewcontroller.isfromVideo = true
-        rotate_flag = false
+        OrientationManager.shared.orientationHandler.rotateFlag = false
         
         let nav = UINavigationController(rootViewController: viewcontroller)
         nav.isNavigationBarHidden = true
@@ -994,7 +994,7 @@ extension VideoViewController{
                     viewcontroller.modalPresentationStyle = .custom
                     viewcontroller.productID = "\(tempProduct.id!)"
                     viewcontroller.isfromVideo = true
-                    rotate_flag = false
+                    OrientationManager.shared.orientationHandler.rotateFlag = false
                     
                     let nav = UINavigationController(rootViewController: viewcontroller)
                     nav.isNavigationBarHidden = true

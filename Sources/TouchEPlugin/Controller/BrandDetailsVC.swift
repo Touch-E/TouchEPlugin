@@ -57,7 +57,7 @@ public class BrandDetailsVC: UIViewController {
     }
     @IBAction func backClick_Action(_ sender: Any) {
         if isfromVideo{
-            rotate_flag = true
+            OrientationManager.shared.orientationHandler.rotateFlag = true
             self.dismiss(animated: true)
         }else{
             self.navigationController?.popViewController(animated: true)

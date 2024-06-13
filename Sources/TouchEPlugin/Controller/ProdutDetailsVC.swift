@@ -73,7 +73,7 @@ public class ProdutDetailsVC: UIViewController {
     }
     @IBAction func closeClick_Action(_ sender: UIButton) {
         if isfromVideo{
-            rotate_flag = true
+            OrientationManager.shared.orientationHandler.rotateFlag = true
             self.dismiss(animated: true)
         }else{
             self.navigationController?.popViewController(animated: true)
