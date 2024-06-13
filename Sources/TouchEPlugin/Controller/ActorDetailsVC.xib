@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,14 +15,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="WTD-A2-HIR">
-            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LJa-Wk-iAV">
-                    <rect key="frame" x="0.0" y="24" width="393" height="60"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="60"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_logo" translatesAutoresizingMaskIntoConstraints="NO" id="49U-l6-sOR">
-                            <rect key="frame" x="136.66666666666666" y="0.0" width="119.99999999999997" height="60"/>
+                            <rect key="frame" x="147" y="0.0" width="120" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="pb3-Lu-TIs"/>
                             </constraints>
@@ -52,7 +51,7 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tCh-gj-KWt">
-                    <rect key="frame" x="0.0" y="84" width="393" height="734"/>
+                    <rect key="frame" x="0.0" y="104" width="414" height="758"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
             </subviews>
@@ -65,13 +64,13 @@
                 <constraint firstItem="f3E-OR-oiM" firstAttribute="trailing" secondItem="tCh-gj-KWt" secondAttribute="trailing" id="Mxw-uR-VG8"/>
                 <constraint firstItem="LJa-Wk-iAV" firstAttribute="leading" secondItem="WTD-A2-HIR" secondAttribute="leading" id="PKZ-mq-lMX"/>
                 <constraint firstItem="tCh-gj-KWt" firstAttribute="top" secondItem="LJa-Wk-iAV" secondAttribute="bottom" id="fQB-3w-ips"/>
-                <constraint firstItem="LJa-Wk-iAV" firstAttribute="top" secondItem="WTD-A2-HIR" secondAttribute="top" constant="24" id="jja-sA-OUF"/>
+                <constraint firstItem="LJa-Wk-iAV" firstAttribute="top" secondItem="f3E-OR-oiM" secondAttribute="top" id="n2S-f0-y7T"/>
             </constraints>
             <point key="canvasLocation" x="-8" y="-658"/>
         </view>
     </objects>
     <resources>
-        <image name="ic_backt" width="31.333333969116211" height="31"/>
-        <image name="ic_logo" width="124" height="28.666666030883789"/>
+        <image name="ic_backt" width="31.5" height="31"/>
+        <image name="ic_logo" width="124" height="29"/>
     </resources>
 </document>

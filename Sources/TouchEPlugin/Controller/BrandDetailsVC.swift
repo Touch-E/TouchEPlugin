@@ -22,6 +22,7 @@ public class BrandDetailsVC: UIViewController {
     var brandID = ""
     var brandData : BrandDataModel?
     var isCellExpanded = false
+    var isfromVideo = false
     @IBOutlet weak var brandDetailsTBL: UITableView!
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,12 @@ public class BrandDetailsVC: UIViewController {
         }
     }
     @IBAction func backClick_Action(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        if isfromVideo{
+            rotate_flag = true
+            self.dismiss(animated: true)
+        }else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 extension BrandDetailsVC : UITableViewDelegate, UITableViewDataSource {

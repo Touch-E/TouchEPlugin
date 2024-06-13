@@ -41,7 +41,7 @@ public class MyCartVC: UIViewController {
     var expandCellIndex = -1
     var expandCellSection = -1
     var isCellExpanded = false
-    
+    var isfromVideo = false
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,8 +63,12 @@ public class MyCartVC: UIViewController {
     }
 
     @IBAction func closeClick_Action(_ sender: UIButton) {
-        //self.dismiss(animated: true, completion: nil)
-        self.navigationController?.popViewController(animated: true)
+        if isfromVideo{
+            rotate_flag = true
+            self.dismiss(animated: true)
+        }else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     func ConfigureTableView(){
         cartDataTBL.delegate = self

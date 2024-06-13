@@ -26,6 +26,7 @@ public class ProfileVC: UIViewController {
     var isCellExpanded = false
     var isAddressExpanded = false
     var isCardExpanded = false
+    var isfromVideo = false
     public override func viewDidLoad() {
         super.viewDidLoad()
         if let view = Bundle.module.loadNibNamed("ProfileVC", owner: self, options: nil)?.first as? UIView {
@@ -35,7 +36,12 @@ public class ProfileVC: UIViewController {
         ConfigureTableView()
     }
     @IBAction func backClick_Action(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        if isfromVideo{
+            rotate_flag = true
+            self.dismiss(animated: true)
+        }else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     public override func viewWillAppear(_ animated: Bool) {
         GetAddressList()

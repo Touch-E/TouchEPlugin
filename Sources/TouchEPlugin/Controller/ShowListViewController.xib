@@ -31,7 +31,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y6E-fy-4jK">
-                    <rect key="frame" x="0.0" y="24" width="414" height="50"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Hgz-pF-ORt">
                             <rect key="frame" x="167" y="0.0" width="80" height="50"/>
@@ -49,7 +49,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yTI-zk-2xP">
-                    <rect key="frame" x="0.0" y="74" width="414" height="45"/>
+                    <rect key="frame" x="0.0" y="94" width="414" height="45"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3qs-Vd-VFn" customClass="UIImageViewX" customModule="TouchEPlugin">
                             <rect key="frame" x="372" y="7.5" width="30" height="30"/>
@@ -198,7 +198,7 @@
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCM-jx-Vl8" customClass="UIViewX" customModule="TouchEPlugin">
-                    <rect key="frame" x="12" y="119" width="390" height="0.0"/>
+                    <rect key="frame" x="12" y="139" width="390" height="0.0"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TJz-fl-poO" customClass="UIViewX" customModule="TouchEPlugin">
                             <rect key="frame" x="0.0" y="0.0" width="128.5" height="0.0"/>
@@ -311,7 +311,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nuO-Zx-Ili">
-                    <rect key="frame" x="0.0" y="129" width="414" height="733"/>
+                    <rect key="frame" x="0.0" y="149" width="414" height="713"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kve-8J-a1E">
@@ -433,13 +433,13 @@ and so on this is just an example</string>
                 <constraint firstItem="Kve-8J-a1E" firstAttribute="leading" secondItem="Fq9-Ls-7aQ" secondAttribute="leading" id="c2C-VJ-RPj"/>
                 <constraint firstItem="nuO-Zx-Ili" firstAttribute="top" secondItem="cCM-jx-Vl8" secondAttribute="bottom" constant="10" id="dUu-m8-9aN"/>
                 <constraint firstItem="cCM-jx-Vl8" firstAttribute="leading" secondItem="DQo-6j-ZJY" secondAttribute="leading" constant="12" id="gNG-t0-t8Q"/>
-                <constraint firstItem="Y6E-fy-4jK" firstAttribute="top" secondItem="Fq9-Ls-7aQ" secondAttribute="top" constant="24" id="hBO-2b-7ZZ"/>
                 <constraint firstAttribute="bottom" secondItem="Kve-8J-a1E" secondAttribute="bottom" id="hrg-QB-rBc"/>
                 <constraint firstItem="DQo-6j-ZJY" firstAttribute="trailing" secondItem="yTI-zk-2xP" secondAttribute="trailing" id="ie7-n7-swU"/>
                 <constraint firstItem="yTI-zk-2xP" firstAttribute="leading" secondItem="DQo-6j-ZJY" secondAttribute="leading" id="jV9-Qe-Cat"/>
                 <constraint firstItem="DQo-6j-ZJY" firstAttribute="trailing" secondItem="Y6E-fy-4jK" secondAttribute="trailing" id="l4n-yS-wfB"/>
                 <constraint firstItem="DQo-6j-ZJY" firstAttribute="bottom" secondItem="nuO-Zx-Ili" secondAttribute="bottom" id="woX-eh-PsT"/>
                 <constraint firstItem="yTI-zk-2xP" firstAttribute="top" secondItem="Y6E-fy-4jK" secondAttribute="bottom" id="xgt-vp-9Gn"/>
+                <constraint firstItem="Y6E-fy-4jK" firstAttribute="top" secondItem="DQo-6j-ZJY" secondAttribute="top" id="zDJ-Nx-4fG"/>
             </constraints>
             <point key="canvasLocation" x="-938" y="-163"/>
         </view>

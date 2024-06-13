@@ -38,6 +38,7 @@ public class ProdutDetailsVC: UIViewController {
     var shippingSelectIndex = 0
     var SKUIndex = 0
     var productQTY = 1
+    var isfromVideo = false
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,8 +72,12 @@ public class ProdutDetailsVC: UIViewController {
         
     }
     @IBAction func closeClick_Action(_ sender: UIButton) {
-        //self.dismiss(animated: true, completion: nil)
-        self.navigationController?.popViewController(animated: true)
+        if isfromVideo{
+            rotate_flag = true
+            self.dismiss(animated: true)
+        }else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)

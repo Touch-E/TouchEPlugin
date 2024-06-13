@@ -18,6 +18,7 @@ public class ActorDetailsVC: UIViewController {
     var actorID = ""
     var actorData : ActorDetailsModel?
     var isCellExpanded = false
+    var isfromVideo = false
     public struct Identifiers {
         static let kActorDetailTableViewCell = "ActorDetailTableViewCell"
         static let kCategoriesTableViewCell = "CategoriesTableViewCell"
@@ -42,8 +43,12 @@ public class ActorDetailsVC: UIViewController {
         ActorDetailsTBL.isHidden = true
     }
     @IBAction func closeClick(_ sender: UIButton) {
-        //self.dismiss(animated: true, completion: nil)
-        self.navigationController?.popViewController(animated: true)
+        if isfromVideo{
+            rotate_flag = true
+            self.dismiss(animated: true)
+        }else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

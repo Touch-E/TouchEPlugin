@@ -15,7 +15,7 @@ let DefaultAnimationDuration: TimeInterval        = 0.3
 
 
 var window: UIWindow?
-
+public var rotate_flag = false
 
 public let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
 public let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)

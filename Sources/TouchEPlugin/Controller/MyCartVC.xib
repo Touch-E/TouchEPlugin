@@ -27,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yqa-W2-yIc">
-                    <rect key="frame" x="0.0" y="24" width="414" height="45"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="45"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_logo" translatesAutoresizingMaskIntoConstraints="NO" id="KTP-pV-9w8">
                             <rect key="frame" x="147" y="10" width="120" height="35"/>
@@ -60,21 +60,21 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopping Cart (1)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LXu-xh-dnE">
-                    <rect key="frame" x="10" y="77" width="133.5" height="20"/>
+                    <rect key="frame" x="10" y="97" width="133.5" height="20"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yOO-f8-YDE" customClass="UIViewX" customModule="Touch_E_Demo" customModuleProvider="target">
-                    <rect key="frame" x="12" y="105" width="390" height="721"/>
+                    <rect key="frame" x="12" y="125" width="390" height="701"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="8" estimatedSectionHeaderHeight="-1" sectionFooterHeight="8" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="IuO-V3-soV">
-                            <rect key="frame" x="0.0" y="0.0" width="390" height="721"/>
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="701"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your cart is empty!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QGg-rY-y5B">
-                            <rect key="frame" x="130" y="352" width="130" height="17"/>
+                            <rect key="frame" x="130" y="342" width="130" height="17"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -174,9 +174,9 @@
             <viewLayoutGuide key="safeArea" id="vet-C0-iwi"/>
             <color key="backgroundColor" red="0.070588238540000001" green="0.070588238540000001" blue="0.070588238540000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="yqa-W2-yIc" firstAttribute="top" secondItem="aUy-6z-2hE" secondAttribute="top" constant="24" id="32w-qx-wb1"/>
                 <constraint firstItem="vet-C0-iwi" firstAttribute="trailing" secondItem="yqa-W2-yIc" secondAttribute="trailing" id="5QI-Rq-Rd7"/>
                 <constraint firstAttribute="bottom" secondItem="7uA-DH-Yav" secondAttribute="bottom" id="DFi-Ny-Gyp"/>
+                <constraint firstItem="yqa-W2-yIc" firstAttribute="top" secondItem="vet-C0-iwi" secondAttribute="top" id="HtW-9s-L7l"/>
                 <constraint firstItem="LXu-xh-dnE" firstAttribute="top" secondItem="yqa-W2-yIc" secondAttribute="bottom" constant="8" id="M1s-FG-S4z"/>
                 <constraint firstItem="7uA-DH-Yav" firstAttribute="top" secondItem="yOO-f8-YDE" secondAttribute="bottom" id="T1C-hr-kas"/>
                 <constraint firstItem="yOO-f8-YDE" firstAttribute="leading" secondItem="vet-C0-iwi" secondAttribute="leading" constant="12" id="YRd-Ol-ccV"/>

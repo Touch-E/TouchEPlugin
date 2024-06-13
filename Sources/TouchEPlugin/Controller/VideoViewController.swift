@@ -76,10 +76,10 @@ public class VideoViewController: UIViewController {
         }
         
         VovimageView.isHidden = true
-        if isDevicePortrait() {
-            let value = UIInterfaceOrientation.landscapeLeft.rawValue
-            UIDevice.current.setValue(value, forKey: "orientation")
-        }
+//        if isDevicePortrait() {
+//            let value = UIInterfaceOrientation.landscapeLeft.rawValue
+//            UIDevice.current.setValue(value, forKey: "orientation")
+//        }
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         
         
@@ -108,6 +108,10 @@ public class VideoViewController: UIViewController {
         }
         
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        playerLayer?.frame = self.backgroundVideoContainer.bounds
+    }
     public override func viewWillAppear(_ animated: Bool) {
         cloaseUV.isHidden = false
         viewBgSeekBar.isHidden = false
@@ -119,15 +123,15 @@ public class VideoViewController: UIViewController {
         pauseTimer()
         player!.pause()
     }
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass ||
-            traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass {
-            let value = UIInterfaceOrientation.landscapeLeft.rawValue
-            UIDevice.current.setValue(value, forKey: "orientation")
-
-        }
-    }
+//    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass ||
+//            traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass {
+//            let value = UIInterfaceOrientation.landscapeLeft.rawValue
+//            UIDevice.current.setValue(value, forKey: "orientation")
+//
+//        }
+//    }
     
     //MARK: - Functions
     func Configurecollection(){
@@ -141,12 +145,24 @@ public class VideoViewController: UIViewController {
     @IBAction func cartClick_Action(_ sender: Any) {
         let viewcontroller = MyCartVC.storyboardInstance()
         viewcontroller.modalPresentationStyle = .custom
-        self.navigationController?.pushViewController(viewcontroller, animated: true)
+        viewcontroller.isfromVideo = true
+        rotate_flag = false
+        
+        let nav = UINavigationController(rootViewController: viewcontroller)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
     }
     @IBAction func profileClick_Action(_ sender: Any) {
         let vc = profileStoryboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         vc.modalPresentationStyle = .custom
-        self.navigationController?.pushViewController(vc, animated: true)
+        vc.isfromVideo = true
+        rotate_flag = false
+        
+        let nav = UINavigationController(rootViewController: vc)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
     }
     @IBAction func volumeClick_Actiom(_ sender: UIButton) {
         volumeUV.isHidden = false
@@ -177,13 +193,24 @@ public class VideoViewController: UIViewController {
             let viewcontroller = ActorDetailsVC.storyboardInstance()
             viewcontroller.modalPresentationStyle = .custom
             viewcontroller.actorID = currentItemId
-            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            viewcontroller.isfromVideo = true
+            rotate_flag = false
+            
+            let nav = UINavigationController(rootViewController: viewcontroller)
+            nav.isNavigationBarHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
         }else{
             let viewcontroller = BrandDetailsVC.storyboardInstance()
             viewcontroller.modalPresentationStyle = .custom
             viewcontroller.brandID = currentItemId
-            //self.present(viewcontroller, animated: true, completion: nil)
-            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            viewcontroller.isfromVideo = true
+            rotate_flag = false
+            
+            let nav = UINavigationController(rootViewController: viewcontroller)
+            nav.isNavigationBarHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
         }
     }
     
@@ -241,7 +268,8 @@ public class VideoViewController: UIViewController {
         ButtonPlay.setImage(UIImage(named: "play"), for: UIControl.State.normal)
         pauseTimer()
         player!.pause()
-        self.navigationController?.popViewController(animated: true)
+        rotate_flag = false
+        self.dismiss(animated: true)
     }
     @objc func dismissPlayerViewController() {
         // Dismiss the AVPlayerViewController
@@ -579,7 +607,13 @@ extension VideoViewController : UICollectionViewDelegate, UICollectionViewDelega
         let viewcontroller = ProdutDetailsVC.storyboardInstance()
         viewcontroller.modalPresentationStyle = .custom
         viewcontroller.productID = "\(productDic.id!)"
-        self.navigationController?.pushViewController(viewcontroller, animated: true)
+        viewcontroller.isfromVideo = true
+        rotate_flag = false
+        
+        let nav = UINavigationController(rootViewController: viewcontroller)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
         //self.present(viewcontroller, animated: true, completion: nil)
     }
     
@@ -959,7 +993,13 @@ extension VideoViewController{
                     let viewcontroller = ProdutDetailsVC.storyboardInstance()
                     viewcontroller.modalPresentationStyle = .custom
                     viewcontroller.productID = "\(tempProduct.id!)"
-                    self.navigationController?.pushViewController(viewcontroller, animated: true)
+                    viewcontroller.isfromVideo = true
+                    rotate_flag = false
+                    
+                    let nav = UINavigationController(rootViewController: viewcontroller)
+                    nav.isNavigationBarHidden = true
+                    nav.modalPresentationStyle = .fullScreen
+                    self.present(nav, animated: true)
                 }
             }
             

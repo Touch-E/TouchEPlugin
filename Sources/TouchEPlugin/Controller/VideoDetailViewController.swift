@@ -66,8 +66,10 @@ public class VideoDetailViewController: UIViewController {
         viewcontroller.VideoString = self.VideoListData?.videoURL ?? ""
         viewcontroller.VideoListDic = self.VideoListData
         viewcontroller.brandID = "\(self.VideoListData?.brands?[0].id ?? 0)"
-        viewcontroller.modalPresentationStyle = .overFullScreen
-        self.navigationController?.pushViewController(viewcontroller, animated: true)
+        let nav = UINavigationController(rootViewController: viewcontroller)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
         //self.present(viewcontroller, animated: true, completion: nil)
     }
     
