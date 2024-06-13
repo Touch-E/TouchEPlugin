@@ -11,7 +11,7 @@
 		0410364A2BDBA32700345192 /* MovieTBLCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041036482BDBA32700345192 /* MovieTBLCell.xib */; };
 		0410364D2BDBA47900345192 /* CategoryCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410364B2BDBA47900345192 /* CategoryCVCell.swift */; };
 		0410364E2BDBA47900345192 /* CategoryCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0410364C2BDBA47900345192 /* CategoryCVCell.xib */; };
-		04157BD52BF4936E00A419DF /* TouchEPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 04157BD42BF4936E00A419DF /* TouchEPlugin */; };
+		043C6A9A2C1B15E300BD7806 /* TouchEPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 043C6A992C1B15E300BD7806 /* TouchEPlugin */; };
 		04B08F4D2BD0DEEA00328A49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B08F4C2BD0DEEA00328A49 /* AppDelegate.swift */; };
 		04B08F512BD0DEEA00328A49 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B08F502BD0DEEA00328A49 /* ViewController.swift */; };
 		04B08F542BD0DEEA00328A49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B08F522BD0DEEA00328A49 /* Main.storyboard */; };
@@ -66,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04157BD52BF4936E00A419DF /* TouchEPlugin in Frameworks */,
+				043C6A9A2C1B15E300BD7806 /* TouchEPlugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,7 +169,7 @@
 			);
 			name = ExampleApp;
 			packageProductDependencies = (
-				04157BD42BF4936E00A419DF /* TouchEPlugin */,
+				043C6A992C1B15E300BD7806 /* TouchEPlugin */,
 			);
 			productName = ExampleApp;
 			productReference = 04B08F492BD0DEEA00328A49 /* ExampleApp.app */;
@@ -200,7 +200,7 @@
 			);
 			mainGroup = 04B08F402BD0DEEA00328A49;
 			packageReferences = (
-				04157BD32BF4936E00A419DF /* XCRemoteSwiftPackageReference "TouchEPlugin" */,
+				043C6A982C1B15E300BD7806 /* XCRemoteSwiftPackageReference "TouchEPlugin" */,
 			);
 			productRefGroup = 04B08F4A2BD0DEEA00328A49 /* Products */;
 			projectDirPath = "";
@@ -470,7 +470,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		04157BD32BF4936E00A419DF /* XCRemoteSwiftPackageReference "TouchEPlugin" */ = {
+		043C6A982C1B15E300BD7806 /* XCRemoteSwiftPackageReference "TouchEPlugin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Kishan-Italiya/TouchEPlugin.git";
 			requirement = {
@@ -481,9 +481,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		04157BD42BF4936E00A419DF /* TouchEPlugin */ = {
+		043C6A992C1B15E300BD7806 /* TouchEPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 04157BD32BF4936E00A419DF /* XCRemoteSwiftPackageReference "TouchEPlugin" */;
+			package = 043C6A982C1B15E300BD7806 /* XCRemoteSwiftPackageReference "TouchEPlugin" */;
 			productName = TouchEPlugin;
 		};
 /* End XCSwiftPackageProductDependency section */

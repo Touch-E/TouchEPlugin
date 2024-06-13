@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/aws-amplify/aws-sdk-ios-spm.git",
         "state": {
           "branch": null,
-          "revision": "3588f2d300e4a5cbeee09d37d795db94e6158112",
-          "version": "2.36.2"
+          "revision": "f7e79d076556210b1aec4289cc0028d7ac785959",
+          "version": "2.36.3"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
         "state": {
           "branch": null,
-          "revision": "5642d1ffe3dbe628592443bd14154e31929727b4",
-          "version": "5.19.2"
+          "revision": "b8523c1642f3c142b06dd98443ea7c48343a4dfd",
+          "version": "5.19.3"
         }
       },
       {
@@ -60,7 +60,7 @@
         "repositoryURL": "https://github.com/Kishan-Italiya/TouchEPlugin.git",
         "state": {
           "branch": "main",
-          "revision": "c3094688e6fbaf39b5b08e35bebdeb6c9927308d",
+          "revision": "408fe0f81d01740f8a4b001378c925f63d735dfb",
           "version": null
         }
       }
