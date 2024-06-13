@@ -81,7 +81,7 @@ public class MyCartVC: UIViewController {
         let dic = profileData
         let fname = "\(dic.value(forKey: "firstName") ?? "NA")"
         let lname = "\(dic.value(forKey: "lastName") ?? "NA")"
-        +++
+        
         if addressListData?.count == nil || addressListData?.count == 0{
             self.ShowAlert(title: "Error", message: "No shipping address is provided. Go to My Profile > Addresses to add one.")
         } else if fname == "<null>" || lname == "<null>"{
