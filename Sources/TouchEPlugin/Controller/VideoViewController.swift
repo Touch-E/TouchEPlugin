@@ -108,7 +108,7 @@ public class VideoViewController: UIViewController {
         }
         
     }
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer?.frame = self.backgroundVideoContainer.bounds
     }
