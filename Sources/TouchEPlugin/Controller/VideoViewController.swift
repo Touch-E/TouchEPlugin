@@ -134,6 +134,7 @@ class VideoViewController: UIViewController {
             self.view.addSubview(self.smallVideoUV)
             self.originalFrame = self.smallVideoUV.frame
             self.smallVideoUV.isHidden = true
+            print(self.cloaseUV.frame.size.width)
         }
         
     }
