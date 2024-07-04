@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VovVC" customModule="TouchEPlugin">
             <connections>
                 <outlet property="ButtonPlay" destination="a4d-bL-kqi" id="hY4-yv-Z6H"/>
+                <outlet property="backgroundVideoContainer" destination="nnv-gT-xxt" id="d4G-fr-ISg"/>
                 <outlet property="cloaseUV" destination="Mik-E8-jyJ" id="CDd-vw-ftp"/>
                 <outlet property="lblOverallDuration" destination="oK2-mP-Z1J" id="xfK-0o-5Mk"/>
                 <outlet property="lblcurrentText" destination="gQD-R8-3ne" id="fjz-o9-U6K"/>
