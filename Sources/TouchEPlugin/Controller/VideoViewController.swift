@@ -1335,13 +1335,8 @@ extension VideoViewController {
     
     func GetEntitiesDetail(id:String){
         
-        let headers: HTTPHeaders = [
-            "Authorization": AuthToken ,
-            "content-type": "application/json;charset=UTF-8"
-        ]
-        
         start_loading()
-        self.get_api_request("\(BaseURLOffice)video/\(id)/entities\(loadContents)", headers: headers).responseDecodable(of: ProductVideoModel.self) { response in
+        self.get_api_request("\(BaseURLOffice)video/\(id)/entities\(loadContents)", headers: headersCommon).responseDecodable(of: ProductVideoModel.self) { response in
             //            print(response)
             if response.error != nil {
                 self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
@@ -1365,11 +1360,8 @@ extension VideoViewController {
     
     func GetProductMappingDetail(productmappingID : Int){
         
-        let headers: HTTPHeaders = [
-            "Authorization": AuthToken
-        ]
         start_loading()
-        self.get_api_request("\(BaseURLOffice)product-mapping/\(productmappingID)\(loadContents)", headers: headers).responseDecodable(of: MappingDataModel.self) { response in
+        self.get_api_request("\(BaseURLOffice)product-mapping/\(productmappingID)\(loadContents)", headers: headersCommon).responseDecodable(of: MappingDataModel.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -1407,7 +1399,7 @@ extension VideoViewController {
 //        }
         
         print(params)
-        self.post_api_request_withJson("\(BaseURLOffice)video/\(id)\(loadContents)", params: params, headers: headers).responseDecodable(of: VideoDataModel.self) { response in
+        self.post_api_request_withJson("\(BaseURLOffice)video/\(id)\(loadContents)", params: params, headers: headersCommon).responseDecodable(of: VideoDataModel.self) { response in
             //            print(response)
             if response.error != nil {
                 self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
