@@ -131,7 +131,7 @@ class VideoViewController: UIViewController {
             self.smallVideoUV.layer.borderWidth = 1
             self.smallVideoUV.clipsToBounds = true
             
-            view.addSubview(self.smallVideoUV)
+            self.view.addSubview(self.smallVideoUV)
             self.originalFrame = self.smallVideoUV.frame
             self.smallVideoUV.isHidden = true
         }
