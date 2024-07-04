@@ -10,8 +10,7 @@ import AVKit
 import Alamofire
 import AVFoundation
 
-var AuthToken = ""
-var UserID = ""
+
 class VideoViewController: UIViewController {
     
     var VideoString = ""
