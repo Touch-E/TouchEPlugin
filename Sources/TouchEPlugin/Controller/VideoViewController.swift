@@ -105,17 +105,6 @@ class VideoViewController: UIViewController {
         addtoCartBackUV.isHidden = true
         scheduleDispatch(after: 8)
       
-        smallVideoUV = UIView(frame: CGRect(x: view.frame.size.width - 200, y: 40, width: 150, height: 100))
-        smallVideoUV.backgroundColor = .black
-        smallVideoUV.layer.cornerRadius = 10
-        smallVideoUV.layer.borderColor = UIColor.white.cgColor
-        smallVideoUV.layer.borderWidth = 1
-        smallVideoUV.clipsToBounds = true
-        
-        
-        view.addSubview(smallVideoUV)
-        originalFrame = smallVideoUV.frame
-        smallVideoUV.isHidden = true
         
         DispatchQueue.main.async {
             
@@ -134,6 +123,17 @@ class VideoViewController: UIViewController {
             self.Configurecollection()
             self.GetCartDetail()
             //self.smallVideoPlayer()
+            
+            smallVideoUV = UIView(frame: CGRect(x: view.frame.size.width - 200, y: 40, width: 150, height: 100))
+            smallVideoUV.backgroundColor = .black
+            smallVideoUV.layer.cornerRadius = 10
+            smallVideoUV.layer.borderColor = UIColor.white.cgColor
+            smallVideoUV.layer.borderWidth = 1
+            smallVideoUV.clipsToBounds = true
+            
+            view.addSubview(smallVideoUV)
+            originalFrame = smallVideoUV.frame
+            smallVideoUV.isHidden = true
         }
         
     }
@@ -225,7 +225,7 @@ class VideoViewController: UIViewController {
     func Configurecollection(){
         productCV.delegate = self
         productCV.dataSource = self
-        productCV.register(UINib(nibName: Identifiers.kVideoProductCVCell, bundle: nil), forCellWithReuseIdentifier: Identifiers.kVideoProductCVCell)
+        productCV.register(UINib(nibName: Identifiers.kVideoProductCVCell, bundle: Bundle.module), forCellWithReuseIdentifier: Identifiers.kVideoProductCVCell)
         
     }
     @IBAction func cartClick_Action(_ sender: Any) {
