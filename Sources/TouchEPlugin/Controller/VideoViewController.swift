@@ -124,16 +124,16 @@ class VideoViewController: UIViewController {
             self.GetCartDetail()
             //self.smallVideoPlayer()
             
-            smallVideoUV = UIView(frame: CGRect(x: view.frame.size.width - 200, y: 40, width: 150, height: 100))
-            smallVideoUV.backgroundColor = .black
-            smallVideoUV.layer.cornerRadius = 10
-            smallVideoUV.layer.borderColor = UIColor.white.cgColor
-            smallVideoUV.layer.borderWidth = 1
-            smallVideoUV.clipsToBounds = true
+            self.smallVideoUV = UIView(frame: CGRect(x: self.cloaseUV.frame.size.width - 200, y: 40, width: 150, height: 100))
+            self.smallVideoUV.backgroundColor = .black
+            self.smallVideoUV.layer.cornerRadius = 10
+            self.smallVideoUV.layer.borderColor = UIColor.white.cgColor
+            self.smallVideoUV.layer.borderWidth = 1
+            self.smallVideoUV.clipsToBounds = true
             
-            view.addSubview(smallVideoUV)
-            originalFrame = smallVideoUV.frame
-            smallVideoUV.isHidden = true
+            view.addSubview(self.smallVideoUV)
+            self.originalFrame = self.smallVideoUV.frame
+            self.smallVideoUV.isHidden = true
         }
         
     }
