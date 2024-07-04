@@ -124,7 +124,7 @@ class VideoViewController: UIViewController {
             self.GetCartDetail()
             //self.smallVideoPlayer()
             
-            self.smallVideoUV = UIView(frame: CGRect(x: self.cloaseUV.frame.size.width - 200, y: 40, width: 150, height: 100))
+            self.smallVideoUV = UIView(frame: CGRect(x: UIScreen.main.bounds.size.width - 200, y: 40, width: 150, height: 100))
             self.smallVideoUV.backgroundColor = .black
             self.smallVideoUV.layer.cornerRadius = 10
             self.smallVideoUV.layer.borderColor = UIColor.white.cgColor
