@@ -1,8 +1,8 @@
 //
 //  VideoViewController.swift
-//  
+//  Touch E Demo
 //
-//  Created by Jaydip Godhani on 05/04/24.
+//  Created by Kishan on 29/01/24.
 //
 
 import UIKit
@@ -10,9 +10,10 @@ import AVKit
 import Alamofire
 import AVFoundation
 
-public class VideoViewController: UIViewController {
+var AuthToken = ""
+var UserID = ""
+class VideoViewController: UIViewController {
     
-    //MARK: - Variables
     var VideoString = ""
     var VideoListDic : HomeListModel?
     var VideoData : VideoDataModel?
@@ -41,14 +42,20 @@ public class VideoViewController: UIViewController {
     var cartData : CartData?
     var currentVolumeValue:Float = 0.0
     var dispatchWorkItem: DispatchWorkItem?
-    var IsActor = false
-    var currentItemId = ""
-    var isVideoCompeted = false
+    var acdispatchWorkItem: DispatchWorkItem?
+    var productData : Product?
+    var draggedCell: UICollectionViewCell?
+    var initialIndexPath: IndexPath?
+    var dragPlaceholderView: UIView?
+    
+    
     public struct Identifiers {
         static let kVideoProductCVCell = "VideoProductCVCell"
     }
+    var IsActor = false
+    var currentItemId = ""
+    var isVideoCompeted = false
     
-    //MARK: - Outlets
     @IBOutlet weak var VovimageView: UIImageViewX!
     @IBOutlet weak var vovBTN: UIButton!
     //@IBOutlet weak var productsShowCloseIMGView: UIImageView!
@@ -66,29 +73,51 @@ public class VideoViewController: UIViewController {
     @IBOutlet weak var volumeSlider: UISlider!
     @IBOutlet weak var volumeUV: UIViewX!
     @IBOutlet weak var videoTitleLB: UILabel!
+    @IBOutlet weak var cartBackUV: UIView!
+    @IBOutlet weak var addtoCartBackUV: UIView!
+    @IBOutlet weak var bigCartIMG: UIImageViewX!
+    @IBOutlet weak var bigCartCountBTN: UIButtonX!
+    @IBOutlet weak var addToCartMessageLBL: UILabel!
     
-    //MARK: - LifeCycle
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    var smallVideoUV: UIView!
+    var originalFrame: CGRect!
+    var splayer:AVPlayer?
+    var splayerLayer: AVPlayerLayer?
+    var playerViewController: AVPlayerViewController!
+    var smallVideoString = ""
+    
+    override func viewDidLoad() {
         
         if let view = Bundle.module.loadNibNamed("VideoViewController", owner: self, options: nil)?.first as? UIView {
             self.view = view
         }
-        
+        super.viewDidLoad()
+        view.layoutIfNeeded()
         VovimageView.isHidden = true
-//        if isDevicePortrait() {
-//            let value = UIInterfaceOrientation.landscapeLeft.rawValue
-//            UIDevice.current.setValue(value, forKey: "orientation")
-//        }
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
+        productCV.addGestureRecognizer(longPressGesture)
         
         cloaseUV.isHidden = false
         viewBgSeekBar.isHidden = false
         safeArayUV.isHidden = false
+        addtoCartBackUV.isHidden = true
         scheduleDispatch(after: 8)
       
-
+        smallVideoUV = UIView(frame: CGRect(x: view.frame.size.width - 200, y: 40, width: 150, height: 100))
+        smallVideoUV.backgroundColor = .black
+        smallVideoUV.layer.cornerRadius = 10
+        smallVideoUV.layer.borderColor = UIColor.white.cgColor
+        smallVideoUV.layer.borderWidth = 1
+        smallVideoUV.clipsToBounds = true
+        
+        
+        view.addSubview(smallVideoUV)
+        originalFrame = smallVideoUV.frame
+        smallVideoUV.isHidden = true
+        
         DispatchQueue.main.async {
             
             var image = ""
@@ -105,43 +134,101 @@ public class VideoViewController: UIViewController {
             self.centerPlayerLayer()
             self.Configurecollection()
             self.GetCartDetail()
+            //self.smallVideoPlayer()
         }
         
     }
-    public override func viewDidLayoutSubviews() {
+    
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer?.frame = self.backgroundVideoContainer.bounds
+        splayerLayer?.frame = self.smallVideoUV.bounds
     }
-    public override func viewWillAppear(_ animated: Bool) {
+    
+    override func viewWillAppear(_ animated: Bool) {
         cloaseUV.isHidden = false
         viewBgSeekBar.isHidden = false
         safeArayUV.isHidden = false
         scheduleDispatch(after: 4)
+        
+        if let status = player?.timeControlStatus {
+            switch status {
+            case .playing:
+                print("Player is playing")
+            case .paused:
+                player!.play()
+                ButtonPlay.setImage(UIImage(named: "pause"), for: UIControl.State.normal)
+                resumeTimer()
+            case .waitingToPlayAtSpecifiedRate:
+                print("Player is waiting to play at specified rate")
+            @unknown default:
+                print("Unknown timeControlStatus: \(status)")
+            }
+        } else {
+            print("Player is nil")
+        }
     }
-    public override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         ButtonPlay.setImage(UIImage(named: "play"), for: UIControl.State.normal)
         pauseTimer()
         player!.pause()
-    }
-//    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        super.traitCollectionDidChange(previousTraitCollection)
-//        if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass ||
-//            traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass {
-//            let value = UIInterfaceOrientation.landscapeLeft.rawValue
-//            UIDevice.current.setValue(value, forKey: "orientation")
-//
-//        }
-//    }
     
-    //MARK: - Functions
+    }
+    @objc func playButtonTapped() {
+        let viewcontroller = VovVC.storyboardInstance()
+        viewcontroller.modalPresentationStyle = .custom
+        viewcontroller.VideoString = smallVideoString
+        OrientationManager.shared.orientationHandler.rotateFlag = true
+        let nav = UINavigationController(rootViewController: viewcontroller)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
+        
+    }
+    func configrationSmallVideoView(){
+        let transparentBlackView = UIImageView(frame: smallVideoUV.bounds)
+        smallVideoUV.addSubview(transparentBlackView)
+        
+        if let videoURL = URL(string: smallVideoString) {
+            generateThumbnail(from: videoURL) { thumbnail in
+                if let thumbnail = thumbnail {
+                    transparentBlackView.image = thumbnail
+                    transparentBlackView.contentMode = .scaleAspectFit
+                } else {
+                    print("Failed to generate thumbnail")
+                }
+            }
+        }
+        
+        
+        let playButton = UIButton(type: .custom)
+        playButton.setImage(UIImage(named: "play"), for: .normal)
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        smallVideoUV.addSubview(playButton)
+       
+        
+        NSLayoutConstraint.activate([
+            playButton.centerXAnchor.constraint(equalTo: smallVideoUV.centerXAnchor, constant: 0),
+            playButton.centerYAnchor.constraint(equalTo: smallVideoUV.centerYAnchor),
+            playButton.widthAnchor.constraint(equalToConstant: 80),
+            playButton.heightAnchor.constraint(equalToConstant: 80)
+        ])
+//        let liveVideoURL = URL(string: VideoString)!
+//        getLiveVideoFrameCount(url: liveVideoURL) { frameCount in
+//            if let frameCount = frameCount {
+//               // print("Estimated frame count:", frameCount)
+//            } else {
+//              //  print("Failed to retrieve frame count.")
+//            }
+//        }
+    }
     func Configurecollection(){
         productCV.delegate = self
         productCV.dataSource = self
-        productCV.register(UINib(nibName: Identifiers.kVideoProductCVCell, bundle: Bundle.module), forCellWithReuseIdentifier: Identifiers.kVideoProductCVCell)
+        productCV.register(UINib(nibName: Identifiers.kVideoProductCVCell, bundle: nil), forCellWithReuseIdentifier: Identifiers.kVideoProductCVCell)
         
     }
-    
-    //MARK: - Actions
     @IBAction func cartClick_Action(_ sender: Any) {
         let viewcontroller = MyCartVC.storyboardInstance()
         viewcontroller.modalPresentationStyle = .custom
@@ -152,6 +239,7 @@ public class VideoViewController: UIViewController {
         nav.isNavigationBarHidden = true
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true)
+        //self.navigationController?.pushViewController(viewcontroller, animated: true)
     }
     @IBAction func profileClick_Action(_ sender: Any) {
         let vc = profileStoryboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
@@ -163,6 +251,7 @@ public class VideoViewController: UIViewController {
         nav.isNavigationBarHidden = true
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true)
+       // self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func volumeClick_Actiom(_ sender: UIButton) {
         volumeUV.isHidden = false
@@ -171,22 +260,7 @@ public class VideoViewController: UIViewController {
                 self.volumeUV.isHidden = true
             //}
         }
-        
-//        var dispatchTime: DispatchTime = .now() + 4
-//
-//        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-//            if self.volumeSlider.value == self.currentVolumeValue {
-//                self.volumeUV.isHidden = true
-//            } else {
-//                // If the condition is not met, increase the dispatch time
-//                dispatchTime += 4 // Increase by 4 seconds, adjust as needed
-//                DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-//                    // Call the same block again with the updated dispatch time
-//                    self.volumeUV.isHidden = true
-//                }
-//            }
-//        }
-       
+      
     }
     @IBAction func actorBrandClick_Action(_ sender: UIButton) {
         if IsActor{
@@ -200,6 +274,7 @@ public class VideoViewController: UIViewController {
             nav.isNavigationBarHidden = true
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true)
+            //self.navigationController?.pushViewController(viewcontroller, animated: true)
         }else{
             let viewcontroller = BrandDetailsVC.storyboardInstance()
             viewcontroller.modalPresentationStyle = .custom
@@ -212,6 +287,7 @@ public class VideoViewController: UIViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true)
         }
+        
     }
     
     func startTimer() {
@@ -220,7 +296,11 @@ public class VideoViewController: UIViewController {
     
     @objc func updateVideoDetail() {
         elapsedTime += 0.5
-        //print("8888888888888Second \(CTTime.seconds)")
+        let currentTimeInSeconds = CMTimeGetSeconds(CTTime)
+        if currentTimeInSeconds.isFinite {
+            let currentFrameNumber = Int(currentTimeInSeconds * Double(30)) + 1
+            checkVOVAvailable(currentFrame: currentFrameNumber)
+        }
         updateEventFrames(CTTime)
         
     }
@@ -270,6 +350,7 @@ public class VideoViewController: UIViewController {
         player!.pause()
         OrientationManager.shared.orientationHandler.rotateFlag = false
         self.dismiss(animated: true)
+       // self.navigationController?.popViewController(animated: true)
     }
     @objc func dismissPlayerViewController() {
         // Dismiss the AVPlayerViewController
@@ -305,65 +386,65 @@ public class VideoViewController: UIViewController {
         }
     }
     
-    @objc func orientationChanged() {
-        let orientation = UIDevice.current.orientation
-        
-        switch orientation {
-        case .portrait, .portraitUpsideDown, .landscapeLeft, .landscapeRight:
-            //updatePlayerLayerFrame()
-            centerPlayerLayer()
-            
-            for subview in backgroundVideoContainer.subviews {
-                var removeID = 0
-                for i in 0..<prodcutARYForCheck.count{
-                    var checkAvailable = false
-                    let proid = prodcutARYForCheck[i].id 
-                    
-                    if proid == subview.tag{
-                        for j in 0..<prodcutARY.count{
-                            let ppid = prodcutARY[j].id 
-                            if ppid == proid{
-                                checkAvailable = true
-                            }
-                        }
-                        if checkAvailable == false{
-                            self.prodcutARY.append(prodcutARYForCheck[i])
-                            self.productCV.reloadData()
-                            removeID = subview.tag
-                            subview.removeFromSuperview()
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 8) { // 0.01 seconds delay (10 milliseconds)
-                                if let indexToRemove = self.prodcutARY.firstIndex(where: { $0.id == removeID }) {
-                                    self.prodcutARY.remove(at: indexToRemove)
-                                    self.productCV.reloadData()
-                                }
-                                if let indexToRemove = self.prodcutARYForCheck.firstIndex(where: { $0.id == removeID }) {
-                                    self.prodcutARYForCheck.remove(at: indexToRemove)
-                                    
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        default:
-            break
-        }
-    }
+//    @objc func orientationChanged() {
+//        let orientation = UIDevice.current.orientation
+//
+//        switch orientation {
+//        case .portrait, .portraitUpsideDown, .landscapeLeft, .landscapeRight:
+//            //updatePlayerLayerFrame()
+//            centerPlayerLayer()
+//
+//            for subview in backgroundVideoContainer.subviews {
+//                var removeID = 0
+//                for i in 0..<prodcutARYForCheck.count{
+//                    var checkAvailable = false
+//                    let proid = prodcutARYForCheck[i].id ?? 0
+//
+//                    if proid == subview.tag{
+//                        for j in 0..<prodcutARY.count{
+//                            let ppid = prodcutARY[j].id ?? 0
+//                            if ppid == proid{
+//                                checkAvailable = true
+//                            }
+//                        }
+//                        if checkAvailable == false{
+//                            self.prodcutARY.append(prodcutARYForCheck[i])
+//                            self.productCV.reloadData()
+//                            removeID = subview.tag
+//                            subview.removeFromSuperview()
+//
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 8) { // 0.01 seconds delay (10 milliseconds)
+//                                if let indexToRemove = self.prodcutARY.firstIndex(where: { $0.id == removeID }) {
+//                                    self.prodcutARY.remove(at: indexToRemove)
+//                                    self.productCV.reloadData()
+//                                }
+//                                if let indexToRemove = self.prodcutARYForCheck.firstIndex(where: { $0.id == removeID }) {
+//                                    self.prodcutARYForCheck.remove(at: indexToRemove)
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        default:
+//            break
+//        }
+//    }
     
     func centerPlayerLayer() {
-        guard let playerLayer = playerLayer else {
-            return
-        }
-        
-        // Center the player layer within the view's bounds
-        let viewBounds = view.bounds
-        let layerSize = CGSize(width: viewBounds.width - 20, height: viewBounds.height - 20) // Adjust the size if needed
-        playerLayer.bounds = CGRect(origin: .zero, size: layerSize)
-        playerLayer.position = CGPoint(x: viewBounds.midX, y: viewBounds.midY)
-        
-        // Adjust the frame if you want to keep the aspect ratio
-        playerLayer.contentsRect = CGRect(x: 0, y: 0, width: 1, height: 1)
+//        guard let playerLayer = playerLayer else {
+//            return
+//        }
+//        view.layoutIfNeeded()
+//        // Center the player layer within the view's bounds
+//        let viewBounds = view.bounds
+//        let layerSize = CGSize(width: viewBounds.width - 20, height: viewBounds.height - 20) // Adjust the size if needed
+//        playerLayer.bounds = CGRect(origin: .zero, size: layerSize)
+//        playerLayer.position = CGPoint(x: viewBounds.midX, y: viewBounds.midY)
+//
+//        // Adjust the frame if you want to keep the aspect ratio
+//        playerLayer.contentsRect = CGRect(x: 0, y: 0, width: 1, height: 1)
     }
     func pastVideoPlayer() {
         
@@ -372,7 +453,8 @@ public class VideoViewController: UIViewController {
         player = AVPlayer(playerItem: playerItem)
         playerLayer = AVPlayerLayer(player: player)
         playerLayer?.videoGravity = .resizeAspect
-        //playerLayer?.frame = self.backgroundVideoContainer.bounds
+        
+//        self.backgroundVideoContainer.backgroundColor = .yellow
         self.backgroundVideoContainer.layer.addSublayer(playerLayer!)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -403,10 +485,7 @@ public class VideoViewController: UIViewController {
                     if (time > 0) {
                         self.CTTime = CMTime
                         self.updateFrames(CMTime)
-                        //                        self.updateEventFrames(CMTime)
-                        //                            self.removeLoader()
                         self.stop_loading()
-                        //self.viewBgSeekBar.isHidden = false
                     }
                 }
                 
@@ -455,7 +534,7 @@ public class VideoViewController: UIViewController {
     }
     
     // Observer method to handle player status changes
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath else { return }
         if keyPath == #keyPath(AVPlayer.status) {
             // When player status changes to ready to play, start playing the audio
@@ -463,6 +542,39 @@ public class VideoViewController: UIViewController {
                 player!.play()
             }
         }
+    }
+    
+    @IBAction func addCardClose_Action(_ sender: UIButton) {
+        hideAddCartAll()
+    }
+    func hideAddCartAll(){
+        self.addToCartMessageLBL.text = ""
+        self.addtoCartBackUV.isHidden = true
+        self.cloaseUV.isHidden = true
+        self.safeArayUV.isHidden = true
+        self.bigCartIMG.isHidden = false
+        self.bigCartIMG.image = UIImage(named: "videoCart")
+    }
+   
+    func acscheduleDispatch(after interval: TimeInterval) {
+        accancelDispatch()
+
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.achideViews()
+        }
+        
+        acdispatchWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + interval, execute: workItem)
+    }
+
+    func accancelDispatch() {
+        if let workItem = acdispatchWorkItem {
+            workItem.cancel()
+        }
+    }
+
+    @objc func achideViews() {
+        hideAddCartAll()
     }
     
     
@@ -541,13 +653,12 @@ public class VideoViewController: UIViewController {
         return nil
     }
     
-    
     @objc func finishedPlaying( _ myNotification:NSNotification) {
         ButtonPlay.setImage(UIImage(named: "play"), for: UIControl.State.normal)
         playbackSlider.setValue(0, animated: true)
         playbackSliderValueChanged(playbackSlider)
        // stopTimer() //anb cmt
-        //        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
     }
     
     @objc func playbackSliderValueChanged(_ playbackSlider:UISlider)
@@ -577,20 +688,19 @@ public class VideoViewController: UIViewController {
         return numberString
     }
     
-    
 }
 
 
 extension VideoViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return prodcutARY.count
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = productCV.dequeueReusableCell(withReuseIdentifier: Identifiers.kVideoProductCVCell, for: indexPath) as! VideoProductCVCell
         let productDic = prodcutARY[indexPath.row]
-        let image = productDic.mainImage?.url 
-        if let encodedUrlString = image?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+        let image = productDic.mainImage?.url ?? ""
+        if let encodedUrlString = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             cell.productImageIMG.sd_setImage(with: URL(string: encodedUrlString), placeholderImage: placeholderImg)
             cell.productImageIMG.contentMode = .scaleAspectFill
         } else {
@@ -602,7 +712,7 @@ extension VideoViewController : UICollectionViewDelegate, UICollectionViewDelega
         return cell
     }
     
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let productDic = prodcutARY[indexPath.row]
         let viewcontroller = ProdutDetailsVC.storyboardInstance()
         viewcontroller.modalPresentationStyle = .custom
@@ -614,10 +724,10 @@ extension VideoViewController : UICollectionViewDelegate, UICollectionViewDelega
         nav.isNavigationBarHidden = true
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true)
-        //self.present(viewcontroller, animated: true, completion: nil)
+        //self.navigationController?.pushViewController(viewcontroller, animated: true)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 50 , height: 50)
     }
     
@@ -740,7 +850,6 @@ extension VideoViewController{
         }.forEach { validEvent in
             showProduct(id: id, eventObj: validEvent, tempProduct: product, eventID: eventID)
         }
-     
 
     }
     
@@ -899,8 +1008,8 @@ extension VideoViewController{
     
     func showProduct(id:Int, eventObj : Event, tempProduct : Product, eventID :Int){
         
-        let imageUrl = tempProduct.mainImage?.url 
-        if let encodedUrlString = imageUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+        let imageUrl = tempProduct.mainImage?.url ?? ""
+        if let encodedUrlString = imageUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             
             let widhth = eventObj.r?[2] ?? 0.0
             let Height = eventObj.r?[3] ?? 0.0
@@ -974,13 +1083,13 @@ extension VideoViewController{
                 
                 self.prodcutARYForCheck.append(tempProduct)
                 
-                let brandID = tempProduct.brandID 
+                let brandID = tempProduct.brandID ?? 0
                 if let foundPerson = ProductVideoData?.brands?.first(where: { $0.id == brandID }) {
-                    let image = foundPerson.images?[0].url 
+                    let image = foundPerson.images?[0].url ?? ""
                     VovimageView.isHidden = false
                     IsActor = false
                     currentItemId = "\(brandID)"
-                    if let encodedUrlString = image?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                    if let encodedUrlString = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                         VovimageView.sd_setImage(with: URL(string: encodedUrlString), placeholderImage: placeholderImg)
                     }
                 }
@@ -1001,13 +1110,40 @@ extension VideoViewController{
                     nav.modalPresentationStyle = .fullScreen
                     self.present(nav, animated: true)
                 }
+                
+                customView.panAction = {
+                    let targetRadius: CGFloat = 50.0 // Set your desired radius
+                    if self.isView(customView, withinRadius: targetRadius, of: self.bigCartIMG) {
+                        print("within")
+                        customView.removeFromSuperview()
+                        self.productData = tempProduct
+                        self.bigCartIMG.sd_setImage(with: URL(string: encodedUrlString), placeholderImage: placeholderImg)
+                        self.addToCart(qty: "1") { success in
+                            if success {
+                                self.bigCartIMG.isHidden = true
+                                self.addToCartMessageLBL.text = "Product was added in your cart!"
+                                self.GetCartDetail()
+                                self.acscheduleDispatch(after: 2)
+                            } else {
+                                
+                            }
+                        }
+                    } else {
+                        self.hideAddCartAll()
+                    }
+                    
+                }
+                
+                customView.productDragCountinueAction = {
+                    self.cloaseUV.isHidden = false
+                    self.addtoCartBackUV.isHidden = false
+                    self.safeArayUV.isHidden = false
+                    self.viewBgSeekBar.isHidden = true
+                }
+                
             }
             
-            
         } else {
-            
-            //productsShowCloseIMGView.image = UIImage(named: "placeholdeImgWhite")
-            // Handle the case where encoding fails
             print("Failed to encode URL string")
         }
         
@@ -1020,6 +1156,7 @@ extension VideoViewController{
             if subview.tag == id{
                 if let viewToRemove = subview.viewWithTag(id) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+                        self.acscheduleDispatch(after: 2)
                         self.animatePositionChange(tempView: viewToRemove, tempProduct: prodcut)
                     }
                 } else {
@@ -1056,13 +1193,155 @@ extension VideoViewController{
             }
         }
     }
+    
+    func isView(_ view: UIView, withinRadius radius: CGFloat, of targetView: UIView) -> Bool {
+        let viewCenter = backgroundVideoContainer.convert(view.center, from: view.superview)
+        let targetCenter = backgroundVideoContainer.convert(targetView.center, from: targetView.superview)
+        
+        let distance = sqrt(pow(viewCenter.x - targetCenter.x, 2) + pow(viewCenter.y - targetCenter.y, 2))
+        
+        return distance <= radius
+    }
+    
+    @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
+           let location = gesture.location(in: view)
+
+           switch gesture.state {
+           case .began:
+               guard let selectedIndexPath = productCV.indexPathForItem(at: gesture.location(in: productCV)) else { return }
+               guard let cell = productCV.cellForItem(at: selectedIndexPath) else { return }
+               startDragging(cell, from: selectedIndexPath)
+           case .changed:
+               updateDragging(at: location)
+           case .ended:
+               endDragging(at: location)
+           default:
+               cancelDragging()
+           }
+       }
+    
+
+    func startDragging(_ cell: UICollectionViewCell, from indexPath: IndexPath) {
+        
+        self.cloaseUV.isHidden = false
+        self.addtoCartBackUV.isHidden = false
+        self.safeArayUV.isHidden = false
+        self.viewBgSeekBar.isHidden = true
+        self.acscheduleDispatch(after: 4)
+        
+        
+        initialIndexPath = indexPath
+        draggedCell = cell
+        self.productData = prodcutARY[initialIndexPath!.item]
+        
+        // Take a snapshot of the cell and add it to the main view
+        if let cellSnapshot = cell.snapshotView(afterScreenUpdates: true) {
+            cellSnapshot.frame = view.convert(cell.frame, from: productCV)
+            view.addSubview(cellSnapshot)
+            dragPlaceholderView = cellSnapshot
+            cell.isHidden = true
+        }
+    }
+    
+    func updateDragging(at location: CGPoint) {
+        guard let placeholderView = dragPlaceholderView else { return }
+        placeholderView.center = location
+    }
+    
+    func endDragging(at location: CGPoint) {
+        guard let initialIndexPath = initialIndexPath, let draggedCell = draggedCell, let placeholderView = dragPlaceholderView else {
+            cancelDragging()
+            return
+        }
+        
+        let targetRadius: CGFloat = 50.0
+        let isWithinRadius = isView(placeholderView, withinRadius: targetRadius, of: bigCartIMG)
+        
+        placeholderView.removeFromSuperview()
+        
+        if isWithinRadius {
+            // Remove the item from the data source and delete the item from the collection view
+            if prodcutARY.count > 0{
+                productCV.performBatchUpdates({
+                    // prodcutARY.remove(at: initialIndexPath.item)
+                    productCV.deleteItems(at: [initialIndexPath])
+                    
+                    if let index = self.prodcutARY.firstIndex(where: { $0.id == self.productData?.id }) {
+                        self.prodcutARY.remove(at: index)
+                    }
+                    
+                    let image = self.productData?.mainImage?.url ?? ""
+                    if let encodedUrlString = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                        self.bigCartIMG.sd_setImage(with: URL(string: encodedUrlString), placeholderImage: placeholderImg)
+                        self.bigCartIMG.contentMode = .scaleAspectFill
+                    } else {
+                        print("Failed to encode URL string")
+                    }
+                    
+                    self.addToCart(qty: "1") { success in
+                        if success {
+                            self.bigCartIMG.isHidden = true
+                            self.addToCartMessageLBL.text = "Product was added in your cart!"
+                            self.GetCartDetail()
+                        } else {
+                            
+                        }
+                    }
+                    draggedCell.isHidden = false
+                }, completion: nil)
+                
+            }else{
+                let image = self.productData?.mainImage?.url ?? ""
+                if let encodedUrlString = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                    self.bigCartIMG.sd_setImage(with: URL(string: encodedUrlString), placeholderImage: placeholderImg)
+                    self.bigCartIMG.contentMode = .scaleAspectFill
+                } else {
+                    print("Failed to encode URL string")
+                }
+                
+                self.addToCart(qty: "1") { success in
+                    if success {
+                        self.bigCartIMG.isHidden = true
+                        self.addToCartMessageLBL.text = "Product was added in your cart!"
+                        self.GetCartDetail()
+                    } else {
+                        
+                    }
+                }
+            }
+        } else {
+            self.hideAddCartAll()
+            draggedCell.isHidden = false
+        }
+        
+        self.draggedCell = nil
+        self.initialIndexPath = nil
+        self.dragPlaceholderView = nil
+    }
+    
+    func cancelDragging() {
+        guard let draggedCell = draggedCell, let placeholderView = dragPlaceholderView else { return }
+        
+        placeholderView.removeFromSuperview()
+        draggedCell.isHidden = false
+        
+        self.draggedCell = nil
+        self.initialIndexPath = nil
+        self.dragPlaceholderView = nil
+    }
+
 }
 extension VideoViewController {
     
     func GetEntitiesDetail(id:String){
         
+        let headers: HTTPHeaders = [
+            "Authorization": AuthToken ,
+            "content-type": "application/json;charset=UTF-8"
+        ]
+        
         start_loading()
-        self.get_api_request("\(BaseURLOffice)video/\(id)/entities\(loadContents)", headers: headersCommon).responseDecodable(of: ProductVideoModel.self) { response in
+        self.get_api_request("\(BaseURLOffice)video/\(id)/entities\(loadContents)", headers: headers).responseDecodable(of: ProductVideoModel.self) { response in
             //            print(response)
             if response.error != nil {
                 self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
@@ -1086,8 +1365,11 @@ extension VideoViewController {
     
     func GetProductMappingDetail(productmappingID : Int){
         
+        let headers: HTTPHeaders = [
+            "Authorization": AuthToken
+        ]
         start_loading()
-        self.get_api_request("\(BaseURLOffice)product-mapping/\(productmappingID)\(loadContents)", headers: headersCommon).responseDecodable(of: MappingDataModel.self) { response in
+        self.get_api_request("\(BaseURLOffice)product-mapping/\(productmappingID)\(loadContents)", headers: headers).responseDecodable(of: MappingDataModel.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -1125,8 +1407,8 @@ extension VideoViewController {
 //        }
         
         print(params)
-        self.post_api_request_withJson("\(BaseURLOffice)video/\(id)\(loadContents)", params: params, headers: headersCommon).responseDecodable(of: VideoDataModel.self) { response in
-                        print(response)
+        self.post_api_request_withJson("\(BaseURLOffice)video/\(id)\(loadContents)", params: params, headers: headers).responseDecodable(of: VideoDataModel.self) { response in
+            //            print(response)
             if response.error != nil {
                 self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
             }else{
@@ -1171,6 +1453,7 @@ extension VideoViewController {
             case .success(let cartData):
                 self.cartData = cartData
                 self.cartCountBTN.setTitle("\(self.cartData?.count ?? 0)", for: .normal)
+                self.bigCartCountBTN.setTitle("\(self.cartData?.count ?? 0)", for: .normal)
             case .failure(let error):
                 self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
             }
@@ -1184,9 +1467,11 @@ extension VideoViewController {
 
 import UIKit
 
-public class TopImageBottomLabelView: UIView {
+class TopImageBottomLabelView: UIView {
     var Cordi: CGRect?
     var tapAction: (() -> Void)?
+    var panAction: (() -> Void)?
+    var productDragCountinueAction: (() -> Void)?
     
     func isDevicePortrait() -> Bool {
         return UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
@@ -1373,6 +1658,13 @@ public class TopImageBottomLabelView: UIView {
         let translation = gestureRecognizer.translation(in: view.superview)
         view.center = CGPoint(x: view.center.x + translation.x, y: view.center.y + translation.y)
         gestureRecognizer.setTranslation(.zero, in: view.superview)
+        
+        if gestureRecognizer.state == .ended {
+            panAction?()
+        }else{
+            productDragCountinueAction?()
+        }
+        
     }
     @objc private func viewTapped() {
         // Handle tap action here
@@ -1382,39 +1674,184 @@ public class TopImageBottomLabelView: UIView {
     
     func configure(image: String, productDic: Product, Const: CGRect) {
         topImageView.sd_setImage(with: URL(string: image), placeholderImage: placeholderImg)
-        bottomLabel.text = productDic.name 
+        bottomLabel.text = productDic.name ?? ""
         descLabel.text = productDic.brandName ?? ""
         PriceLabel.text = "$\(productDic.productSkus?.first?.price ?? 0)"
         Cordi = Const
         setupConstraints()
+        
     }
 }
 
-//func mapServerCoordinatesToDevice(serverCoordinates: CGRect, deviceAspectRatio: CGFloat) -> CGRect {
+extension VideoViewController {
+    
+    func addToCart(qty: String, completion: @escaping (Bool) -> Void) {
+        guard let personDict = convertToDictionary(self.productData),
+              let skuDict = convertToDictionary(self.productData?.productSkus?[0]),
+              let shippingDict = convertToDictionary(self.productData?.shippings?[0]) else {
+            completion(false)
+            return
+        }
+
+        let params: [String: Any] = [
+            "count": qty,
+            "price": "\(productData?.productSkus?[0].price ?? 0)",
+            "product": personDict,
+            "projectId": projectID,
+            "shipping": shippingDict,
+            "agreement": 1,
+            "sku": skuDict
+        ]
+
+        print(params)
+        start_loading()
+        self.post_api_request_withJson("\(BaseURLOffice)cart/users/\(UserID)/products", params: params, headers: headersCommon).responseJSON { response in
+            print(response.result)
+            DispatchQueue.main.async {
+                self.stop_loading()
+            }
+
+            if response.response?.statusCode == 404 {
+                DispatchQueue.main.async {
+                    if let json = response.value as? [String: Any],
+                       let message = json["message"] as? String {
+                        self.ShowAlert(title: "Error", message: message)
+                    } else {
+                        self.ShowAlert(title: "Error", message: "Not found. The resource doesn't exist.")
+                    }
+                    completion(false)
+                }
+                return
+            }
+
+            switch response.result {
+            case .success:
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.ShowAlert(title: "Error", message: error.localizedDescription)
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+}
+
+extension VideoViewController {
+    
+    func smallVideoPlayer() {
+        
+//        let url = URL(string: smallVideoString)
+//        let playerItem1: AVPlayerItem = AVPlayerItem(url: url!)
+//        splayer = AVPlayer(playerItem: playerItem1)
+//        splayerLayer = AVPlayerLayer(player: splayer)
+//        splayerLayer?.videoGravity = .resizeAspect
 //
-//    let serverWidth = serverCoordinates.size.width
-//    let serverHeight = serverCoordinates.size.height
-//    let serverAspectRatio = serverWidth / serverHeight
-//
-//    var deviceWidth: CGFloat
-//    var deviceHeight: CGFloat
-//
-//    if serverAspectRatio > deviceAspectRatio {
-//        deviceWidth = serverWidth
-//        deviceHeight = serverWidth / deviceAspectRatio
-//    } else {
-//        deviceWidth = serverHeight * deviceAspectRatio
-//        deviceHeight = serverHeight
-//    }
-//
-//    var deviceX = (UIScreen.main.bounds.width - deviceWidth) / 2  // Center horizontally
-//    var deviceY = (UIScreen.main.bounds.height - deviceHeight) / 2  // Center vertically
-//    if deviceX > 100 {
-//        deviceX = deviceX - 100
-//    }
-//    if deviceY > 100 {
-//        deviceY = deviceY - 100
-//    }
-//
-//    return CGRect(x: deviceX , y: deviceY , width: 80, height: 80)
-//}
+//        self.smallVideoUV.layer.addSublayer(splayerLayer!)
+        
+        
+//        splayer?.play()
+        self.configrationSmallVideoView()
+     }
+    
+    func checkVOVAvailable(currentFrame: Int) {
+        guard let vovs = VideoData?.vovs else {
+            smallVideoUV.isHidden = true
+            return
+        }
+        
+        var isShow = false
+        var shortVideoData: Vov?
+        
+        for cvov in vovs {
+            guard let startFrame = cvov.startFrame, let endFrame = cvov.endFrame else {
+                continue
+            }
+            
+            if currentFrame >= startFrame && currentFrame <= endFrame {
+                isShow = true
+                shortVideoData = cvov
+                break // Exit loop early since we found a matching VOV
+            }
+        }
+        
+        if isShow {
+            if let videoURL = shortVideoData?.relatedProjects?.first?.videoURL {
+                smallVideoString = videoURL
+                smallVideoPlayer()
+                smallVideoUV.isHidden = false
+            } else {
+                smallVideoUV.isHidden = true
+            }
+        } else {
+            smallVideoUV.isHidden = true
+        }
+    }
+    
+    func generateThumbnail(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        let asset = AVAsset(url: url)
+        let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+        assetImageGenerator.appliesPreferredTrackTransform = true
+        
+        let time = CMTime(seconds: 1, preferredTimescale: 60) // Capture the thumbnail at the 1-second mark
+        DispatchQueue.global().async {
+            do {
+                let cgImage = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+                let thumbnail = UIImage(cgImage: cgImage)
+                DispatchQueue.main.async {
+                    completion(thumbnail)
+                }
+            } catch {
+                print("Error generating thumbnail: \(error)")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+    }
+    
+    func getLiveVideoFrameCount(url: URL, completion: @escaping (Int?) -> Void) {
+        let asset = AVURLAsset(url: url)
+        
+        // Load the asset asynchronously to get properties like duration and tracks
+        asset.loadValuesAsynchronously(forKeys: ["duration", "tracks"]) {
+            var durationInSeconds: Double = 0
+            var frameRate: Float = 0
+            
+            // Retrieve duration
+            var error: NSError?
+            let durationStatus = asset.statusOfValue(forKey: "duration", error: &error)
+            if durationStatus == .loaded {
+                durationInSeconds = CMTimeGetSeconds(asset.duration)
+            } else {
+                print("Failed to load duration:", error?.localizedDescription ?? "Unknown error")
+            }
+            
+            // Retrieve frame rate
+            let trackKey = "tracks"
+            let tracksStatus = asset.statusOfValue(forKey: trackKey, error: &error)
+            if tracksStatus == .loaded {
+                if let videoTrack = asset.tracks(withMediaType: .video).first {
+                    frameRate = videoTrack.nominalFrameRate
+                }
+            } else {
+                print("Failed to load tracks:", error?.localizedDescription ?? "Unknown error")
+            }
+            
+            // Calculate estimated frame count
+            var estimatedFrameCount: Int?
+            if frameRate > 0 && durationInSeconds > 0 {
+                estimatedFrameCount = Int(durationInSeconds * Double(frameRate))
+            }
+            
+            // Return the result on the main queue
+            DispatchQueue.main.async {
+                completion(estimatedFrameCount)
+            }
+        }
+    }
+    
+}
