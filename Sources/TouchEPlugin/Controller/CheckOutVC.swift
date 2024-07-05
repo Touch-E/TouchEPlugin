@@ -680,7 +680,6 @@ extension CheckOutVC: UITableViewDelegate, UITableViewDataSource {
                     }else{
                         headerCell.checkBTN.setImage(UIImage(named: "check-box-empty"), for: .normal)
                         currentDic.setValue("0", forKey: "isAllSelect")
-                        //self.customDataARY.replaceObject(at: section, with: currentDic)
                         
                         let dataARY = currentDic.value(forKey: "productsARY") as! NSMutableArray
                         for i in 0..<dataARY.count{
@@ -1067,12 +1066,8 @@ extension CheckOutVC {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print(jsonString)
+               // print(jsonString)
                 
-//                let headers: HTTPHeaders = [
-//                    "Authorization": AuthToken,
-//                    "Content-Type": "application/json"
-//                ]
                 start_loading()
                 AF.request("https://api-cluster.system.touchetv.com/backoffice/api/v1/order/request", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headersCommon).responseData { response in
                     if let request = response.request {

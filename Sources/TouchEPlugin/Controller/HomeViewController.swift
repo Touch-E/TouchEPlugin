@@ -17,18 +17,16 @@ public class HomeViewController: UIViewController, AVPlayerViewControllerDelegat
     var playerViewController: AVPlayerViewController?
     public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
           return .portrait
-      }
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-      setupCollection()
+        setupCollection()
         cvVideoCollection.reloadData()
-        // Do any additional setup after loading the view.
     }
     
     func setupCollection(){
      
-       
         cvVideoCollection.register(UINib(nibName: "VideoListCVCell", bundle: Bundle.module), forCellWithReuseIdentifier: "VideoListCVCell")
         cvVideoCollection.delegate = self
         cvVideoCollection.dataSource = self
@@ -78,7 +76,6 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         viewcontroller.VideoString = VideoListData?[indexPath.row].videoURL ?? ""
         viewcontroller.VideoListDic = VideoListData?[indexPath.row]
         viewcontroller.modalPresentationStyle = .overFullScreen
-//        self.navigationController?.pushViewController(viewcontroller, animated: true)
         self.present(viewcontroller, animated: true, completion: nil)
         
     }

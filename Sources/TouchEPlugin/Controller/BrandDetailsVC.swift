@@ -112,7 +112,6 @@ extension BrandDetailsVC : UITableViewDelegate, UITableViewDataSource {
                 let prodID = self.brandData?.products?[indexp].id ?? 0
                 viewcontroller.productID = "\(prodID)"
                 self.navigationController?.pushViewController(viewcontroller, animated: true)
-                //self.present(viewcontroller, animated: true, completion: nil)
             }
             return cell
         }else if indexPath.row == 2{
