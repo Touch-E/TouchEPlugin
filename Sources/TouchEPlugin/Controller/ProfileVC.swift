@@ -9,6 +9,10 @@ import UIKit
 import Alamofire
 public class ProfileVC: UIViewController {
     
+    static func storyboardInstance() -> ProfileVC {
+        return ProfileVC(nibName: "ProfileVC", bundle: Bundle.module)
+    }
+    
     @IBOutlet weak var profileTBL: UITableView!
     @IBOutlet weak var logoutPopupView: UIView!
     

@@ -241,12 +241,12 @@ class VideoViewController: UIViewController {
         //self.navigationController?.pushViewController(viewcontroller, animated: true)
     }
     @IBAction func profileClick_Action(_ sender: Any) {
-        let vc = profileStoryboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        vc.modalPresentationStyle = .custom
-        vc.isfromVideo = true
+        let viewcontroller = ProfileVC.storyboardInstance()
+        viewcontroller.modalPresentationStyle = .custom
+        viewcontroller.isfromVideo = true
         OrientationManager.shared.orientationHandler.rotateFlag = false
         
-        let nav = UINavigationController(rootViewController: vc)
+        let nav = UINavigationController(rootViewController: viewcontroller)
         nav.isNavigationBarHidden = true
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true)
