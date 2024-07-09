@@ -38,6 +38,16 @@ public var cvv: String = ""
 public var ServerBasePath: String = ""
 
 
+public extension UIImage {
+
+    convenience init?(name: String) {
+        self.init(named: name, in: .module, compatibleWith: nil)
+    }
+
+    static let home = UIImage(name: "videoCart")
+
+}
+
 //MARK: - Colors
 extension UIColor {
     

@@ -10,7 +10,6 @@ import AVKit
 import Alamofire
 import AVFoundation
 
-
 class VideoViewController: UIViewController {
     
     var VideoString = ""
@@ -553,7 +552,7 @@ class VideoViewController: UIViewController {
         self.cloaseUV.isHidden = true
         self.safeArayUV.isHidden = true
         self.bigCartIMG.isHidden = false
-        self.bigCartIMG.image = UIImage(named: "videoCart")
+        self.bigCartIMG.image = UIImage.home//UIImage(named: "videoCart")
     }
    
     func acscheduleDispatch(after interval: TimeInterval) {
