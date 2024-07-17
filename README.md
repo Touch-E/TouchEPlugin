@@ -78,7 +78,7 @@ import TouchEPlugin
     }
 ```
 
-### User Authentication and Profile Data Handling
+## User Authentication and Profile Data Handling
  
 To authenticate a user and manage their profile data, you can use the `userAuthentication` method provided by `TouchEPlugin`.
 
@@ -113,14 +113,16 @@ func save() {
     Default.set(archivedObject, forKey: "profileData")
 }
 ```
-### Retrieving Movie List and Cart Data
-Fetch movie list and cart data using getMovieDetail and getCartDataCount methods:
+## Retrieving Movie List and Cart Data
+
+To fetch movie lists and cart data, you can use the `getMovieDetail` and `getCartDataCount` methods respectively.
+
+### Get Movie List Data
 
 ```swift
 var VideoListData : HomeData?
 var CartDataARY : CartData?
     
-//use this method for get movie list 
 TouchEPluginVC.shared.getMovieDetail { result in
     switch result {
     case .success(let homeData):
@@ -130,8 +132,11 @@ TouchEPluginVC.shared.getMovieDetail { result in
         print("Error: \(error)")
     }
 }
-    
-//Use this method for get my cart count         
+```
+### Get Cart Data Count
+
+```swift    
+      
 TouchEPluginVC.shared.getCartDataCount { result in
     switch result {
     case .success(let cartData):
