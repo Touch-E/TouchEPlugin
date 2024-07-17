@@ -24,14 +24,25 @@ Alternatively, you can add the dependency directly in your Package.swift file:
 
 ## Usage
 
-### Setup in AppDelegate.swift
-First, import the TouchEPlugin framework and validate the server URL and user token in your application(_:didFinishLaunchingWithOptions:) method:
- 
+### Initial Setup
+
+To get started with TouchEPlugin, you need to configure it in your AppDelegate.swift file. This involves importing the framework, validating the server URL, and checking the user token.
+
+### Step-by-Step Setup in AppDelegate.swift
+
+1. Import the TouchEPlugin Framework
+
+Add the following import statement at the top of your AppDelegate.swift file:
+
 ```swift
 import TouchEPlugin
+```
+2. Validate URL and Token
 
-@UIApplicationMain
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+In the application(_:didFinishLaunchingWithOptions:) method, validate the server URL and the user token as shown below:
+ 
+```swift
+ func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let urlString = "https://api-cluster.system.touchetv.com"
         var userToken = "" // If user already login assign save token here.
