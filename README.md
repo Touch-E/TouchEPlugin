@@ -1,8 +1,22 @@
 # TouchEPlugin
 
+## Overview
+
+TouchEPlugin is a Swift package designed to streamline the integration of touch-based interactions within your iOS applications. 
+
 ## Installation
 
-To integrate TouchEPlugin into your Swift package, add the following dependency to your Package.swift file:
+To integrate TouchEPlugin into your Swift project, you can use the Swift Package Manager, which is integrated into the Swift compiler. Follow the steps below to add TouchEPlugin as a dependency.
+
+## Using Swift Package Manager
+
+1. Open your project in Xcode.
+2. Navigate to File > Swift Packages > Add Package Dependency....
+3. Enter the URL of the TouchEPlugin repository: https://github.com/Kishan-Italiya/TouchEPlugin.git.
+4. Choose the main branch for the package.
+5. Add the package to your project.
+
+Alternatively, you can add the dependency directly in your Package.swift file:
 
 ```swift
 .package(url: "https://github.com/Kishan-Italiya/TouchEPlugin.git", branch: "main"),
