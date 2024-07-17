@@ -32,14 +32,14 @@ To get started with TouchEPlugin, you need to configure it in your AppDelegate.s
 
 1. Import the TouchEPlugin Framework
 
-Add the following import statement at the top of your AppDelegate.swift file:
+   Add the following import statement at the top of your AppDelegate.swift file:
 
 ```swift
 import TouchEPlugin
 ```
 2. Validate URL and Token
 
-In the application(_:didFinishLaunchingWithOptions:) method, validate the server URL and the user token as shown below:
+   In the application(_:didFinishLaunchingWithOptions:) method, validate the server URL and the user token as shown below:
  
 ```swift
  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
