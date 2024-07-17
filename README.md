@@ -2,7 +2,7 @@
 
 ## Overview
 
-TouchEPlugin is a Swift package designed to streamline the integration of touch-based interactions within your iOS applications. 
+`TouchEPlugin` is a Swift package designed to streamline the integration of touch-based interactions within your iOS applications. 
 
 ## Installation
 
@@ -11,12 +11,12 @@ To integrate TouchEPlugin into your Swift project, you can use the Swift Package
 ## Using Swift Package Manager
 
 1. Open your project in Xcode.
-2. Navigate to File > Swift Packages > Add Package Dependency....
-3. Enter the URL of the TouchEPlugin repository: https://github.com/Kishan-Italiya/TouchEPlugin.git.
+2. Navigate to `File` > `Swift Packages` > `Add Package Dependency....`
+3. Enter the URL of the `TouchEPlugin` repository: `https://github.com/Kishan-Italiya/TouchEPlugin.git`.
 4. Choose the main branch for the package.
 5. Add the package to your project.
 
-Alternatively, you can add the dependency directly in your Package.swift file:
+Alternatively, you can add the dependency directly in your `Package.swift` file:
 
 ```swift
 .package(url: "https://github.com/Kishan-Italiya/TouchEPlugin.git", branch: "main"),
@@ -26,20 +26,20 @@ Alternatively, you can add the dependency directly in your Package.swift file:
 
 ### Initial Setup
 
-To get started with TouchEPlugin, you need to configure it in your AppDelegate.swift file. This involves importing the framework, validating the server URL, and checking the user token.
+To get started with `TouchEPlugin`, you need to configure it in your `AppDelegate.swift` file. This involves importing the framework, validating the server URL, and checking the user token.
 
 ### Step-by-Step Setup in AppDelegate.swift
 
 1. Import the TouchEPlugin Framework
 
-   Add the following import statement at the top of your AppDelegate.swift file:
+   Add the following import statement at the top of your `AppDelegate.swift` file:
 
 ```swift
 import TouchEPlugin
 ```
 2. Validate URL and Token
 
-   In the application(_:didFinishLaunchingWithOptions:) method, validate the server URL and the user token as shown below:
+   In the `application(_:didFinishLaunchingWithOptions:)` method, validate the server URL and the user token as shown below:
  
 ```swift
  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -80,7 +80,7 @@ import TouchEPlugin
 
 ### User Authentication and Profile Data Handling
  
-To authenticate a user and manage their profile data, you can use the userAuthentication method provided by `TouchEPlugin`.
+To authenticate a user and manage their profile data, you can use the `userAuthentication` method provided by `TouchEPlugin`.
 
 ### User Login
 
