@@ -78,8 +78,13 @@ import TouchEPlugin
     }
 ```
 
-### User Authentication and Profile Data Handling 
-Login using userAuthentication method and save user data upon successful login:
+### User Authentication and Profile Data Handling
+ 
+To authenticate a user and manage their profile data, you can use the userAuthentication method provided by `TouchEPlugin`.
+
+### User Login
+
+The `userAuthentication` method takes a username and password, then returns a result indicating success or failure.
 
 ```swift
 TouchEPluginVC.shared.userAuthentication(username: txtFieldEmail.text ?? "", password: txtFieldPassword.text ?? "") { result in
