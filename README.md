@@ -2,9 +2,7 @@
 
 ## Installation
 
-The Swift Package Manager is a tool for automating the distribution of Swift code and is integrated into the swift compiler.
-
-Once you have your Swift package set up, adding [TouchEPlugin](https://github.com/Kishan-Italiya/TouchEPlugin.git) as a dependency is as easy as adding it to the dependencies value of your Package.swift or the Package list in Xcode.
+To integrate TouchEPlugin into your Swift package, add the following dependency to your Package.swift file:
 
 ```swift
 .package(url: "https://github.com/Kishan-Italiya/TouchEPlugin.git", branch: "main"),
@@ -12,10 +10,8 @@ Once you have your Swift package set up, adding [TouchEPlugin](https://github.co
 
 ## Usage
 
-### Import Package 
-In AppDelegate.swift, just import TouchEPlugin framework and enable TouchEPlugin. 
-
-After that First check your server URL is valid or not and User are already login or not in TouchEPlugin using validateURLAndToken method.
+### Setup in AppDelegate.swift
+First, import the TouchEPlugin framework and validate the server URL and user token in your application(_:didFinishLaunchingWithOptions:) method:
  
 ```swift
 import TouchEPlugin
@@ -57,10 +53,8 @@ import TouchEPlugin
     }
 ```
 
-### Login 
-Login using userAuthentication method in which you have to just passed username and password.
-
-After successfully login save user data in your project like below example.
+### User Authentication and Profile Data Handling 
+Login using userAuthentication method and save user data upon successful login:
 
 ```swift
 TouchEPluginVC.shared.userAuthentication(username: txtFieldEmail.text ?? "", password: txtFieldPassword.text ?? "") { result in
@@ -89,8 +83,8 @@ func save() {
     Default.set(archivedObject, forKey: "profileData")
 }
 ```
-### Get Movie list Data
-Get movie list using getMovieDetail method 
+### Retrieving Movie List and Cart Data
+Fetch movie list and cart data using getMovieDetail and getCartDataCount methods:
 
 ```swift
 var VideoListData : HomeData?
@@ -118,24 +112,21 @@ TouchEPluginVC.shared.getCartDataCount { result in
     }
 }        
 ```
-### Navigation to Movie Details Screen
+### Navigation Examples
+Navigate to different screens within your app:
 
 ```swift 
+// Navigate to Movie Details Screen
 let viewcontroller = VideoDetailViewController()
 viewcontroller.modalPresentationStyle = .custom
 viewcontroller.VideoListData = VideoListData[SelectedIndex]
 self.navigationController?.pushViewController(viewcontroller, animated: true)
-```
-### Navigation to My Cart Screen
-
-```swift 
+ 
+// Navigate to My Cart Screen
 let viewcontroller = MyCartVC()
 self.navigationController?.pushViewController(viewcontroller, animated: true)
-```
 
-### Navigation to My Profile Screen
-
-```swift 
+// Navigate to My Profile Screen
 let viewcontroller = ProfileVC()
 self.navigationController?.pushViewController(viewcontroller, animated: true)
 ```
