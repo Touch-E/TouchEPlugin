@@ -147,21 +147,27 @@ TouchEPluginVC.shared.getCartDataCount { result in
     }
 }        
 ```
-### Navigation Examples
-Navigate to different screens within your app:
+## Screen Navigation
+
+`TouchEPlugin` supports navigation to various screens in your app, such as movie details, cart, and profile screens.
+
+### Navigate to Movie Details Screen
 
 ```swift 
-// Navigate to Movie Details Screen
 let viewcontroller = VideoDetailViewController()
 viewcontroller.modalPresentationStyle = .custom
 viewcontroller.VideoListData = VideoListData[SelectedIndex]
 self.navigationController?.pushViewController(viewcontroller, animated: true)
- 
-// Navigate to My Cart Screen
+```
+### Navigate to My Cart Screen
+
+```swift  
 let viewcontroller = MyCartVC()
 self.navigationController?.pushViewController(viewcontroller, animated: true)
+```
+### Navigate to My Profile Screen
 
-// Navigate to My Profile Screen
+```swift  
 let viewcontroller = ProfileVC()
 self.navigationController?.pushViewController(viewcontroller, animated: true)
 ```
