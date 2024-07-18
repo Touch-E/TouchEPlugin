@@ -4,6 +4,19 @@
 
 `TouchEPlugin` is a Swift package designed to streamline the integration of touch-based interactions within your iOS applications. 
 
+## SDK supported features
+
+1. Login to custom server
+2. Display list of movies/tv shows available on server
+3. Movie detail page
+4. Detailed Movie character page
+5. Purchase Product from which showed in movie
+6. Additional features to like Drag & Drop directly from movie to purchase product
+7. Add product to Cart
+8. Movie screen includes Vov (Video over video)
+9. SDK includes User info screen
+10. Order history with user Rating
+ 
 ## Installation
 
 To integrate TouchEPlugin into your Swift project, you can use the Swift Package Manager, which is integrated into the Swift compiler. Follow the steps below to add TouchEPlugin as a dependency.
@@ -135,8 +148,7 @@ TouchEPluginVC.shared.getMovieDetail { result in
 ```
 ### Get Cart Data Count
 
-```swift    
-      
+```swift          
 TouchEPluginVC.shared.getCartDataCount { result in
     switch result {
     case .success(let cartData):
