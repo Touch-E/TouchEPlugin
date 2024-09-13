@@ -74,36 +74,36 @@ extension UIViewController  {
     }
 
 }
-
-public class APIManager {
-    static let shared = APIManager()
-    
-    //private init() {}
-    
-    //Get Home Screen Video data
-    func getModelDetail(completion: @escaping (Result<HomeData, Error>) -> Void) {
-        let url = getProject
-        AF.request(url, headers: headersCommon).responseDecodable(of: HomeData.self) { response in
-            switch response.result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-    
-    //Get Cart data
-    func getCartDetail(userID: String, completion: @escaping (Result<CartData, Error>) -> Void) {
-        let url = "\(BaseURLOffice)cart/users/\(userID)/products\(loadContents)"
-        AF.request(url, headers: headersCommon).responseDecodable(of: CartData.self) { response in
-            switch response.result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-    
-}
+//
+//class APIManager {
+//    static let shared = APIManager()
+//
+//    //private init() {}
+//
+//    //Get Home Screen Video data
+//    func getModelDetail(completion: @escaping (Result<HomeData, Error>) -> Void) {
+//        let url = getProject
+//        AF.request(url, headers: headersCommon).responseDecodable(of: HomeData.self) { response in
+//            switch response.result {
+//            case .success(let data):
+//                completion(.success(data))
+//            case .failure(let error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//    
+//    //Get Cart data
+//    func getCartDetail(userID: String, completion: @escaping (Result<CartData, Error>) -> Void) {
+//        let url = "\(BaseURLOffice)cart/users/\(userID)/products\(loadContents)"
+//        AF.request(url, headers: headersCommon).responseDecodable(of: CartData.self) { response in
+//            switch response.result {
+//            case .success(let data):
+//                completion(.success(data))
+//            case .failure(let error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
+//}

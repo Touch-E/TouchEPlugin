@@ -345,35 +345,35 @@ extension ShowListViewController : UITableViewDelegate, UITableViewDataSource {
 
 extension ShowListViewController {
      func GetModelDetail(){
-        start_loading()
-        APIManager.shared.getModelDetail { result in
-            switch result {
-            case .success(let homeData):
-                self.VideoListData = homeData
-                self.filterDataFromAry(selectedType: "All")
-            case .failure(let error):
-                self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
-            }
-            DispatchQueue.main.async {
-                self.stop_loading()
-            }
-        }
+//        start_loading()
+//        APIManager.shared.getModelDetail { result in
+//            switch result {
+//            case .success(let homeData):
+//                self.VideoListData = homeData
+//                self.filterDataFromAry(selectedType: "All")
+//            case .failure(let error):
+//                self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+//            }
+//            DispatchQueue.main.async {
+//                self.stop_loading()
+//            }
+//        }
     }
     
     func GetCartDetail(){
-        start_loading()
-        APIManager.shared.getCartDetail(userID: UserID) { result in
-            switch result {
-            case .success(let cartData):
-                self.cartData = cartData
-                self.cartQTYBTN.setTitle("\(self.cartData?.count ?? 0)", for: .normal)
-            case .failure(let error):
-                self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
-            }
-            DispatchQueue.main.async {
-                self.stop_loading()
-            }
-        }
+//        start_loading()
+//        APIManager.shared.getCartDetail(userID: UserID) { result in
+//            switch result {
+//            case .success(let cartData):
+//                self.cartData = cartData
+//                self.cartQTYBTN.setTitle("\(self.cartData?.count ?? 0)", for: .normal)
+//            case .failure(let error):
+//                self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+//            }
+//            DispatchQueue.main.async {
+//                self.stop_loading()
+//            }
+//        }
     }
     
 }
