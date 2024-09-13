@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version: 5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -44,7 +44,7 @@ let package = Package(
                 .copy("TblCell/CustomerReviewTBLCell.xib"),
                 .copy("TblCell/GenresTBLCell.xib"),
                 .copy("TblCell/LiveProductCell.xib"),
-                .copy("TblCell/OrderSummaryCell.xib"),
+                .copy("TblCell/OrderSummearyCell.xib"),
                 .copy("TblCell/MoreProductTBLCell.xib"),
                 .copy("TblCell/ProductImageDetailsCell.xib"),
                 .copy("TblCell/PriceShippingCell.xib"),
@@ -53,7 +53,7 @@ let package = Package(
                 .copy("TblCell/OrderDetailTBLCell.xib"),
                 .copy("TblCell/OrderListHeaderCell.xib"),
                 .copy("TblCell/OrderListCell.xib"),
-                .copy("TblCell/PersonalInformationTBLCell.xib"),
+                .copy("TblCell/PersonalinformationTBLCell.xib"),
                 .copy("TblCell/PosttoTBLCell.xib"),
                 .copy("TblCell/PaymentDetailsTBLCell.xib"),
                 .copy("TblCell/ItemTBLCell.xib"),
@@ -67,7 +67,7 @@ let package = Package(
                 .copy("CollectionCell/CategoriesCollectionViewCell.xib"),
                 .copy("CollectionCell/VideoProductCVCell.xib"),
                 .copy("CollectionCell/ActorimageCollectionViewCell.xib"),
-                .copy("CollectionCell/CustomerReviewCVCell.xib"),
+                .copy("CollectionCell/customerReviewCVCell.xib"),
                 .copy("CollectionCell/MoreProductCell.xib"),
                 .copy("CollectionCell/OrderStatusCell.xib"),
                 .copy("CollectionCell/AddressCVCell.xib"),

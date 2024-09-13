@@ -119,11 +119,15 @@ class EditProfileVC: UIViewController {
         return "\(maskedUsername)@\(domain)"
     }
     func maskString(string: String) -> String {
+        // If the string is shorter than 2 characters, just return it as is
         guard string.count > 1 else {
             return string
         }
         
+        // Get the first character of the string
         let firstCharacter = string.prefix(1)
+        
+        // Repeat the first character and append '*' for the rest of the characters
         let maskedString = "\(firstCharacter)" + String(repeating: "*", count: string.count - 1)
         
         return maskedString

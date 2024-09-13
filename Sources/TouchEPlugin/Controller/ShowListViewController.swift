@@ -1,3 +1,4 @@
+
 //
 //  ActorDetailViewController.swift
 //  Touch E Demo
@@ -40,12 +41,11 @@ public class ShowListViewController: UIViewController, UITextFieldDelegate {
     var fcomedyARY = [HomeListModel]() //HomeListModel?
     var ffamilyARY = [HomeListModel]()
     var factionARY = [HomeListModel]()
+    
+    var mainDicDataAry = NSMutableArray()
+    var filterDicDataAry = NSMutableArray()
     var isSearching = false
     var selectedType = "All"
-    
-    public var token = ""
-    public var userId = ""
-    public var profileTData = NSMutableDictionary()
     
     public struct Identifiers {
         static let kActorDetailTableViewCell = "ActorDetailTableViewCell"
@@ -59,14 +59,6 @@ public class ShowListViewController: UIViewController, UITextFieldDelegate {
         if let view = Bundle.module.loadNibNamed("ShowListViewController", owner: self, options: nil)?.first as? UIView {
             self.view = view
         }
-        
-//        UserID = userId
-//        headersCommon = [
-//            "Authorization": token
-//        ]
-//        profileData = profileTData
-        
-    
         ConfigureTableView()
         GetModelDetail()
         
@@ -85,6 +77,9 @@ public class ShowListViewController: UIViewController, UITextFieldDelegate {
     }
     public override func viewWillAppear(_ animated: Bool) {
         GetCartDetail()
+    }
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
     }
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -109,9 +104,7 @@ public class ShowListViewController: UIViewController, UITextFieldDelegate {
         tblList.register(UINib(nibName: Identifiers.kCategoriesTableViewCell, bundle: Bundle.module), forCellReuseIdentifier: Identifiers.kCategoriesTableViewCell)
         tblList.register(UINib(nibName: Identifiers.kRecentMovieCell, bundle: Bundle.module), forCellReuseIdentifier: Identifiers.kRecentMovieCell)
     }
-    
     @IBAction func btnDismissClick(_ sender: Any) {
-
         let testViewController = ProfileVC()
         self.navigationController?.pushViewController(testViewController, animated: true)
     }
@@ -182,37 +175,56 @@ public class ShowListViewController: UIViewController, UITextFieldDelegate {
             filterDataFromAry(selectedType: selectedType)
         }
     }
-    public func filterDataFromAry(selectedType:String){
+    func filterDataFromAry(selectedType:String){
         
         filterARY.removeAll()
-        actionARY.removeAll()
-        comedyARY.removeAll()
-        familyARY.removeAll()
+
+        filterDicDataAry.removeAllObjects()
+        mainDicDataAry.removeAllObjects()
         
         if selectedType == "All"{
             filterARY = VideoListData!
         }else{
-//            for i in 0..<VideoListData!.count{
-//                let tempDataType = VideoListData?[i].type ?? ""
-//                if tempDataType == selectedType{
-//                    filterARY.append(VideoListData![i])
-//                }
-//            }
             filterARY = VideoListData?.compactMap { $0.type == selectedType ? $0 : nil } ?? []
         }
         print(filterARY.count)
         for j in 0..<filterARY.count{
             let genresARY = filterARY[j].genres
+            
             for k in 0..<genresARY!.count{
-                let genName = genresARY?[k].rawValue ?? ""
-                if genName == "Action"{
-                    actionARY.append(filterARY[j])
+                
+                let currentName = genresARY?[k] ?? ""
+                var isCategoryExsist = false
+                
+                for k in 0..<mainDicDataAry.count{
+                    
+                    let tempDic = mainDicDataAry[k] as! NSDictionary
+                    let nameAlready = "\(tempDic.value(forKey: "name")!)"
+                    
+                    if nameAlready == currentName{
+                        let currentListARY = tempDic.value(forKey: "listData") as! NSMutableArray
+                        currentListARY.add(filterARY[j])
+                        
+                        let tempdic = NSMutableDictionary()
+                        tempdic["name"] = nameAlready
+                        tempdic["listData"] = currentListARY
+                        
+                        mainDicDataAry.replaceObject(at: k, with: tempdic)
+                        isCategoryExsist = true
+                    }
+                    
                 }
-                if genName == "Comedy"{
-                    comedyARY.append(filterARY[j])
-                }
-                if genName == "Family"{
-                    familyARY.append(filterARY[j])
+                
+                if isCategoryExsist == false{
+                    
+                    let listdata = NSMutableArray()
+                    let tempDic = NSMutableDictionary()
+                    listdata.add(filterARY[j])
+                    
+                    tempDic["name"] = genresARY?[k] ?? ""
+                    tempDic["listData"] = listdata
+                    
+                    mainDicDataAry.add(tempDic)
                 }
                 
             }
@@ -228,26 +240,10 @@ public class ShowListViewController: UIViewController, UITextFieldDelegate {
         }else{
             tblList.reloadData()
         }
-       
     }
-    func actionFilterObjects(with query: String) -> [HomeListModel] {
-        return actionARY.filter {
-            if let name = $0.name {
-                return name.lowercased().contains(query.lowercased())
-            }
-            return false
-        }
-    }
-    func comedyFilterObjects(with query: String) -> [HomeListModel] {
-        return comedyARY.filter {
-            if let name = $0.name {
-                return name.lowercased().contains(query.lowercased())
-            }
-            return false
-        }
-    }
-    func familyFilterObjects(with query: String) -> [HomeListModel] {
-        return familyARY.filter {
+
+    func allFilterObjects(with tempARY: [HomeListModel], query: String) -> [HomeListModel] {
+        return tempARY.filter {
             if let name = $0.name {
                 return name.lowercased().contains(query.lowercased())
             }
@@ -262,75 +258,37 @@ public class ShowListViewController: UIViewController, UITextFieldDelegate {
 
     // Update your data source based on the search query
     public func updateSearchResults(for query: String) {
-        factionARY = actionFilterObjects(with: query)
-        fcomedyARY = comedyFilterObjects(with: query)
-        ffamilyARY = familyFilterObjects(with: query)
-        print(factionARY.count)
+        filterDicDataAry.removeAllObjects()
+        
+        for k in 0..<mainDicDataAry.count{
+            
+            let tempDic = mainDicDataAry[k] as! NSDictionary
+            let nameAlready = "\(tempDic.value(forKey: "name")!)"
+            
+            let currentListARY = tempDic.value(forKey: "listData") as! [HomeListModel]
+            let NewListARY = allFilterObjects(with: currentListARY, query: query)
+            
+            if NewListARY.count > 0{
+                let tempdic = NSMutableDictionary()
+                tempdic["name"] = nameAlready
+                tempdic["listData"] = NewListARY
+                filterDicDataAry.add(tempdic)
+            }
+        }
         isSearching = true
         tblList.reloadData()
         
-        // Reload your UI or update it accordingly
     }
 }
 
 extension ShowListViewController : UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        4
+        return isSearching ? filterDicDataAry.count + 1 : mainDicDataAry.count + 1
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 1{
-            let cell = tblList.dequeueReusableCell(withIdentifier: Identifiers.kCategoriesTableViewCell, for: indexPath) as! CategoriesTableViewCell
-            cell.VideoList = isSearching ? factionARY : actionARY
-            cell.lblVideoCount.text = "Action(\(isSearching ? factionARY.count : actionARY.count))"
-            cell.cellSpacing()
-            cell.cvCategory.reloadData()
-            cell.cvTopCON.constant = 4
-        
-            cell.MovieClick = { (videoDic) -> Void in
-                let viewcontroller = VideoDetailViewController()
-                viewcontroller.modalPresentationStyle = .custom
-                viewcontroller.VideoListData = videoDic
-                self.navigationController?.pushViewController(viewcontroller, animated: true)
-                
-            }
-            return cell
-            
-        }else if indexPath.row == 2{
-            let cell = tblList.dequeueReusableCell(withIdentifier: Identifiers.kCategoriesTableViewCell, for: indexPath) as! CategoriesTableViewCell
-            cell.VideoList = isSearching ? fcomedyARY : comedyARY
-            cell.lblVideoCount.text = "Comedy(\(isSearching ? fcomedyARY.count : comedyARY.count))"
-            cell.cellSpacing()
-            cell.cvCategory.reloadData()
-            cell.cvTopCON.constant = 4
-            
-            cell.MovieClick = { (videoDic) -> Void in
-                let viewcontroller = VideoDetailViewController()
-                viewcontroller.modalPresentationStyle = .custom
-                viewcontroller.VideoListData = videoDic
-                self.navigationController?.pushViewController(viewcontroller, animated: true)
-                
-            }
-            return cell
-            
-        }else if indexPath.row == 3{
-            let cell = tblList.dequeueReusableCell(withIdentifier: Identifiers.kCategoriesTableViewCell, for: indexPath) as! CategoriesTableViewCell
-            cell.VideoList = isSearching ? ffamilyARY : familyARY
-            cell.lblVideoCount.text = "Family(\(isSearching ? ffamilyARY.count : familyARY.count))"
-            cell.cellSpacing()
-            cell.cvCategory.reloadData()
-            cell.cvTopCON.constant = 4
-            
-            cell.MovieClick = { (videoDic) -> Void in
-                let viewcontroller = VideoDetailViewController()
-                viewcontroller.modalPresentationStyle = .custom
-                viewcontroller.VideoListData = videoDic
-                self.navigationController?.pushViewController(viewcontroller, animated: true)
-            }
-            return cell
-            
-        }else{
+        if indexPath.row == 0{
             let cell = tblList.dequeueReusableCell(withIdentifier: Identifiers.kRecentMovieCell, for: indexPath) as! RecentMovieCell
             cell.selectionStyle = .none
             cell.Configurecollection()
@@ -345,29 +303,40 @@ extension ShowListViewController : UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.pushViewController(viewcontroller, animated: true)
             }
             return cell
+        }else{
+            let cell = tblList.dequeueReusableCell(withIdentifier: Identifiers.kCategoriesTableViewCell, for: indexPath) as! CategoriesTableViewCell
+            let tempDic = isSearching ? filterDicDataAry[indexPath.row - 1] as! NSDictionary : mainDicDataAry[indexPath.row - 1] as! NSDictionary
+            let currentListARY = tempDic.value(forKey: "listData") as! [HomeListModel]
+            cell.VideoList = currentListARY
+            cell.lblVideoCount.text = "\(tempDic.value(forKey: "name")!)"//"Action(\(isSearching ? factionARY.count : actionARY.count))"
+            cell.cellSpacing()
+            cell.cvCategory.reloadData()
+            cell.cvTopCON.constant = 4
+        
+            cell.MovieClick = { (videoDic) -> Void in
+                let viewcontroller = VideoDetailViewController.storyboardInstance()
+                viewcontroller.modalPresentationStyle = .custom
+                viewcontroller.VideoListData = videoDic
+                self.navigationController?.pushViewController(viewcontroller, animated: true)
+                
+            }
+            return cell
         }
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         if isSearching {
-            if indexPath.row == 1{
-                return factionARY.count > 0 ? 215 : 0
-            }else if indexPath.row == 2{
-                return fcomedyARY.count > 0 ? 215 : 0
-            }else if indexPath.row == 3{
-                return ffamilyARY.count > 0 ? 215 : 0
+            if indexPath.row != 0{
+                return filterDicDataAry.count > 0 ? 215 : 0
             }else{
-                return 300
+                return CGFloat(300)
             }
         }else{
-            if indexPath.row == 1{
-                return actionARY.count > 0 ? 215 : 0
-            }else if indexPath.row == 2{
-                return comedyARY.count > 0 ? 215 : 0
-            }else if indexPath.row == 3{
-                return familyARY.count > 0 ? 215 : 0
+            if indexPath.row != 0{
+                return mainDicDataAry.count > 0 ? 215 : 0
             }else{
-                return 300
+                return CGFloat(300)
             }
         }
     }
@@ -375,7 +344,7 @@ extension ShowListViewController : UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ShowListViewController {
-    func GetModelDetail(){
+     func GetModelDetail(){
         start_loading()
         APIManager.shared.getModelDetail { result in
             switch result {
@@ -406,4 +375,5 @@ extension ShowListViewController {
             }
         }
     }
+    
 }

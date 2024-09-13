@@ -44,6 +44,7 @@ public class ActorDetailsVC: UIViewController {
     }
     @IBAction func closeClick(_ sender: UIButton) {
         if isfromVideo{
+            
             OrientationManager.shared.orientationHandler.rotateFlag = true
             self.dismiss(animated: true)
         }else{
@@ -54,11 +55,15 @@ public class ActorDetailsVC: UIViewController {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
+        // Check for changes in size class or traits
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass ||
             traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass {
             self.view.layoutIfNeeded()
             self.ActorDetailsTBL.layoutIfNeeded()
             self.ActorDetailsTBL.reloadData()
+            
+            // Update constraints or perform layout changes based on the new size class
+           // updateConstraintsForSizeClass()
         }
     }
 }

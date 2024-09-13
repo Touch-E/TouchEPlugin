@@ -62,6 +62,7 @@ public class VideoDetailViewController: UIViewController {
         }
     }
     @IBAction func playClick_Action(_ sender: UIButton) {
+        //rotate_flag = true
         OrientationManager.shared.orientationHandler.rotateFlag = true
         let viewcontroller = VideoViewController()//mainStoryboard.instantiateViewController(withIdentifier: "VideoViewController") as! VideoViewController
         viewcontroller.VideoString = self.VideoListData?.videoURL ?? ""
@@ -99,7 +100,7 @@ extension VideoDetailViewController : UITableViewDelegate, UITableViewDataSource
             
             
             cell.readMoreUV.isHidden = textHeight < 20 ? true : false
-            cell.lblGenre.text = VideoListData?.genres?.first?.rawValue ?? ""
+            cell.lblGenre.text = VideoListData?.genres?.first ?? ""
             cell.lblYear.text = "\(VideoListData?.year ?? 0)"
             cell.yearTxt = "\(VideoListData?.year ?? 0)"
             

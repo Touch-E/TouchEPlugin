@@ -25,7 +25,7 @@ import UIKit
      var readMoreTapped: (() -> Void)?
      var index = -1
      var imageArr : [Image]?
-     var gebneArr : [Genre]?
+     var gebneArr : [String]?
      var imageClick : (()-> Void)?
      var yearTxt = ""
      public struct Identifiers {
@@ -115,7 +115,7 @@ import UIKit
              if indexPath.row == 0{
                  cell.titleLBL.text = yearTxt
              }else{
-                 cell.titleLBL.text = gebneArr?[indexPath.row - 1].rawValue ?? ""
+                 cell.titleLBL.text = gebneArr?[indexPath.row - 1] ?? ""
              }
              return cell
          }

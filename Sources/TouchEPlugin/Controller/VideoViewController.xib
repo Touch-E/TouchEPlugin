@@ -295,7 +295,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0du-XS-b4p">
                     <rect key="frame" x="0.0" y="792" width="414" height="70"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="videoCart" translatesAutoresizingMaskIntoConstraints="NO" id="3yG-7W-ef1" customClass="UIImageViewX" customModule="TouchEPlugin">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="videoCart" translatesAutoresizingMaskIntoConstraints="NO" id="3yG-7W-ef1" customClass="UIImageViewX">
                             <rect key="frame" x="187" y="15" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="ILt-TY-AcV"/>

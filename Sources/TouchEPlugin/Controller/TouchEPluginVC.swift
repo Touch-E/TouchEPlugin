@@ -119,6 +119,7 @@ public class TouchEPluginVC: UIViewController {
    public func getMovieDetail(completion: @escaping (Result<HomeData, Error>) -> Void) {
         let url = getProject
         AF.request(url, headers: headersCommon).responseDecodable(of: HomeData.self) { response in
+            print(response)
             switch response.result {
             case .success(let data):
                 completion(.success(data))

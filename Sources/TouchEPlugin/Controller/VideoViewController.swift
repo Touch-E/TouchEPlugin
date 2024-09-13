@@ -10,6 +10,17 @@ import AVKit
 import Alamofire
 import AVFoundation
 
+public extension UIImage {
+
+    convenience init?(name: String) {
+        self.init(named: name, in: .module, compatibleWith: nil)
+    }
+
+    static let home = UIImage(name: "videoCart")
+
+}
+
+
 class VideoViewController: UIViewController {
     
     var VideoString = ""
@@ -241,6 +252,11 @@ class VideoViewController: UIViewController {
         //self.navigationController?.pushViewController(viewcontroller, animated: true)
     }
     @IBAction func profileClick_Action(_ sender: Any) {
+//        let vc = profileStoryboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+//        vc.modalPresentationStyle = .custom
+//        vc.isfromVideo = true
+//        OrientationManager.shared.orientationHandler.rotateFlag = false
+        
         let viewcontroller = ProfileVC.storyboardInstance()
         viewcontroller.modalPresentationStyle = .custom
         viewcontroller.isfromVideo = true
@@ -552,7 +568,8 @@ class VideoViewController: UIViewController {
         self.cloaseUV.isHidden = true
         self.safeArayUV.isHidden = true
         self.bigCartIMG.isHidden = false
-        self.bigCartIMG.image = UIImage.home//UIImage(named: "videoCart")
+        self.bigCartIMG.image = UIImage.home//UIImage(named: "videoCart") //UIImage(systemName: "cart.fill")
+        self.bigCartIMG.tintColor = .white
     }
    
     func acscheduleDispatch(after interval: TimeInterval) {
@@ -601,7 +618,6 @@ class VideoViewController: UIViewController {
     }
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
 
-        
         if cloaseUV.isHidden {
             cloaseUV.isHidden = false
             viewBgSeekBar.isHidden = false

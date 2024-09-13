@@ -30,7 +30,7 @@ public struct HomeListModel: Codable {
     let type: String?
     let subtype: String?
     let year: Int?
-    let genres: [Genre]?
+    let genres: [String]?
     let videoURL: String?
     let duration: Double?
     let videoEntityID: Int?
@@ -295,13 +295,13 @@ enum ReviewStatus: String, Codable {
 // MARK: - Shipping
 struct Shipping: Codable {
     let id: Int?
-    let name: ShippingName?
+    let name: String?
     let zone: JSONNull?
     let price: Int?
     let currency: Curr?
     let externalID: String?
     let freeAmount: Int?
-    let countries: [Country]?
+    let countries: [String]?
 
     enum CodingKeys: String, CodingKey {
         case id, name, zone, price, currency

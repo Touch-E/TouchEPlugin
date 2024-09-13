@@ -38,16 +38,6 @@ public var cvv: String = ""
 public var ServerBasePath: String = ""
 
 
-public extension UIImage {
-
-    convenience init?(name: String) {
-        self.init(named: name, in: .module, compatibleWith: nil)
-    }
-
-    static let home = UIImage(name: "videoCart")
-
-}
-
 //MARK: - Colors
 extension UIColor {
     
@@ -102,6 +92,18 @@ enum themeFonts : String {
     case regular = "HelveticaNeue"
     case medium = "HelveticaNeue-Medium"
 }
+
+func themeFont(size : Float,fontname : themeFonts) -> UIFont {
+    
+    if UIScreen.main.bounds.width <= 320 {
+        return UIFont(name: fontname.rawValue, size: CGFloat(size) - 2.0)!
+    }
+    else {
+        return UIFont(name: fontname.rawValue, size: CGFloat(size))!
+    }
+}
+
+
 public protocol OrientationHandler {
     var rotateFlag: Bool { get set }
     func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
@@ -127,18 +129,6 @@ public class OrientationManager {
     
     private init() {}
 }
-func themeFont(size : Float,fontname : themeFonts) -> UIFont {
-    
-    if UIScreen.main.bounds.width <= 320 {
-        return UIFont(name: fontname.rawValue, size: CGFloat(size) - 2.0)!
-    }
-    else {
-        return UIFont(name: fontname.rawValue, size: CGFloat(size))!
-    }
-}
-
-
-
 extension UIViewController {
     private struct AssociatedKeys {
         static var activityIndicator: NVActivityIndicatorView?
