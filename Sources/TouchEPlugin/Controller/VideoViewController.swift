@@ -1453,7 +1453,7 @@ extension VideoViewController {
             filterEventData[processStatus] = sortedModels
         }
     }
-//    func GetCartDetail(){
+    func GetCartDetail(){
 //        start_loading()
 //        APIManager.shared.getCartDetail(userID: UserID) { result in
 //            switch result {
@@ -1468,7 +1468,7 @@ extension VideoViewController {
 //                self.stop_loading()
 //            }
 //        }
-//    }
+    }
 }
 
 
