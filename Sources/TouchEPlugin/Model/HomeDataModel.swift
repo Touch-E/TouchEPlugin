@@ -8,11 +8,11 @@
 import Foundation
 
 // MARK: - WelcomeElement
-struct HomeListModel: Codable {
+public struct HomeListModel: Codable {
     let id: Int?
     let name, info, tags, status: String?
     let createdDate: Int?
-    let images: [Image]?
+    public let images: [Image]?
     let mainImage: Image?
     let relatedMedia: [HomeListModel]?
     let loadContents: Bool?
@@ -30,7 +30,7 @@ struct HomeListModel: Codable {
     let type: String?
     let subtype: String?
     let year: Int?
-    let genres: [String]?
+    let genres: [Genre]?
     let videoURL: String?
     let duration: Double?
     let videoEntityID: Int?
@@ -77,10 +77,10 @@ struct Actor: Codable {
 }
 
 // MARK: - Image
-struct Image: Codable {
+public struct Image: Codable {
     let id: Int?
     let contentType: ContentType?
-    let url: String?
+    public let url: String?
     let label: String?
     let mainImage: Bool?
     let originalWidth, originalHeight: Int?
@@ -295,13 +295,13 @@ enum ReviewStatus: String, Codable {
 // MARK: - Shipping
 struct Shipping: Codable {
     let id: Int?
-    let name: String?
+    let name: ShippingName?
     let zone: JSONNull?
     let price: Int?
     let currency: Curr?
     let externalID: String?
     let freeAmount: Int?
-    let countries: [String]?
+    let countries: [Country]?
 
     enum CodingKeys: String, CodingKey {
         case id, name, zone, price, currency
@@ -331,7 +331,7 @@ enum Genre: String, Codable {
     case family = "Family"
 }
 
-typealias HomeData = [HomeListModel]
+public typealias HomeData = [HomeListModel]
 
 
 class JSONNull: Codable, Hashable {
