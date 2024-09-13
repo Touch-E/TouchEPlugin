@@ -97,7 +97,7 @@ extension VideoDetailsFromOtherVC : UITableViewDelegate, UITableViewDataSource {
             
             
             cell.readMoreUV.isHidden = textHeight < 20 ? true : false
-            cell.lblGenre.text = VideoListData?.genres?.first?.rawValue ?? ""
+            cell.lblGenre.text = VideoListData?.genres?.first ?? ""//VideoListData?.genres?.first?.rawValue ?? ""
             cell.lblYear.text = "\(VideoListData?.year ?? 0)"
             cell.yearTxt = "\(VideoListData?.year ?? 0)"
             
