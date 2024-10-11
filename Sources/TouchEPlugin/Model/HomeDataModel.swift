@@ -35,7 +35,8 @@ public struct HomeListModel: Codable {
     let duration: Double?
     let videoEntityID: Int?
     let readyForEdit, mergeWithMarketpace: Bool?
-    let startTime, width, height, frames: Int?
+    let startTime: Double?
+    let width, height, frames: Int?
     let urlSpriteS, urlSpriteL, urlSpriteG: String?
 
     enum CodingKeys: String, CodingKey {
