@@ -494,9 +494,17 @@ class VideoViewController: UIViewController {
         if self.sliderDragToPlayPause == false {
             player!.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), queue: DispatchQueue.main) { (CMTime) -> Void in
                 if self.player!.currentItem?.status == .readyToPlay {
+                    let currentTime: Float64 = CMTimeGetSeconds(self.player!.currentTime())
                     let time : Float64 = CMTimeGetSeconds(self.player!.currentTime());
                     self.playbackSlider.value = Float ( time );
                     self.lblcurrentText.text = self.stringFromTimeInterval(interval: time)
+                   
+                    let duration: CMTime = self.player!.currentItem!.duration
+                    let totalSeconds: Float64 = CMTimeGetSeconds(duration)
+                    let remainingTime: Float64 = totalSeconds - currentTime
+                
+                    self.lblOverallDuration.text = "-\(self.stringFromTimeInterval(interval: remainingTime))"
+                    
                     if (time > 0) {
                         self.CTTime = CMTime
                         self.updateFrames(CMTime)
@@ -507,7 +515,10 @@ class VideoViewController: UIViewController {
                 self.playbackSlider.isContinuous = true
                 let duration : CMTime = playerItem.asset.duration
                 let seconds : Float64 = CMTimeGetSeconds(duration)
-                self.lblOverallDuration.text = self.stringFromTimeInterval(interval: seconds)
+                
+                //self.lblOverallDuration.text = self.stringFromTimeInterval(interval: seconds)
+                
+                
                 self.playbackSlider.maximumValue = Float(seconds)
                 
                 let playbackLikelyToKeepUp = self.player?.currentItem?.isPlaybackLikelyToKeepUp
@@ -615,6 +626,9 @@ class VideoViewController: UIViewController {
         self.cloaseUV.isHidden = true
         self.viewBgSeekBar.isHidden = true
         self.safeArayUV.isHidden = true
+        self.productCV.isHidden = true
+        self.VovimageView.isHidden = true
+        self.printSubviews(view: backgroundVideoContainer)
     }
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
 
@@ -622,6 +636,9 @@ class VideoViewController: UIViewController {
             cloaseUV.isHidden = false
             viewBgSeekBar.isHidden = false
             safeArayUV.isHidden = false
+            productCV.isHidden = false
+            VovimageView.isHidden = false
+            printNotHideSubviews(view: backgroundVideoContainer)
             scheduleDispatch(after: 4)
         } else {
             scheduleDispatch(after: 4)
@@ -692,7 +709,7 @@ class VideoViewController: UIViewController {
         let seconds = interval % 60
         let minutes = (interval / 60) % 60
         let hours = (interval / 3600)
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        return String(format: "%02d:%02d",minutes, seconds)
     }
     
     func convertLastDigitToDecimalPoint(number: Int) -> String {
@@ -1061,34 +1078,37 @@ extension VideoViewController{
                 var mainX = (backgroundVideoContainer.frame.width * subX) / CGFloat(videoFrame.width) //- 30
                 var mainY = (backgroundVideoContainer.frame.height * subY) / CGFloat(videoFrame.height) //- 30
                 
-                //let minuesWidth = (videoFrame.width * serverCoordinates.width) / CGFloat(videoWidth)
 
-                if isDevicePortrait() {
-                    mainX = mainX - 40
-                } else if isDeviceLandscape() {
-                    mainX = mainX - 80
-                }
+//                if isDevicePortrait() {
+//                    mainX = mainX - 40
+//                } else if isDeviceLandscape() {
+//                    mainX = mainX - 80
+//                }
                 
                 if mainX <= 0{
                     mainX = 0
                 }else if mainX >= videoFrame.width{
-                    mainX = videoFrame.width - 50
+                    mainX = videoFrame.width //- 50
                 }
                 
                 if mainY <= videoFrame.origin.y{
                     mainY = videoFrame.origin.y + 8
                 }else if mainY >= (videoFrame.height + videoFrame.origin.y){
-                    mainY = (videoFrame.height + videoFrame.origin.y) - 50
+                    mainY = (videoFrame.height + videoFrame.origin.y) //- 50
                 }
                 
                 
                 var  customView = TopImageBottomLabelView()
-                
-                if isDevicePortrait() {
-                    customView = TopImageBottomLabelView(frame: CGRect(x: mainX, y: mainY, width: 40, height: 30))
-                } else if isDeviceLandscape() {
-                    customView = TopImageBottomLabelView(frame: CGRect(x: mainX, y: mainY, width: 80, height: 80))
-                }
+//
+//                if DeviceUtils.isPad {
+//                    customView = TopImageBottomLabelView(frame: CGRect(x: mainX, y: mainY, width: 80, height: 80))
+//                }else{
+                    if isDevicePortrait() {
+                        customView = TopImageBottomLabelView(frame: CGRect(x: mainX, y: mainY, width: 40, height: 30))
+                    } else if isDeviceLandscape() {
+                        customView = TopImageBottomLabelView(frame: CGRect(x: mainX, y: mainY, width: 80, height: 80))
+                    }
+               // }
                 
                 
                 let deviceCoordinates = CGRect(x: mainX, y: mainY, width: 80, height: 80)
@@ -1118,7 +1138,7 @@ extension VideoViewController{
                     viewcontroller.modalPresentationStyle = .custom
                     viewcontroller.productID = "\(tempProduct.id!)"
                     viewcontroller.isfromVideo = true
-                    OrientationManager.shared.orientationHandler.rotateFlag = false
+                    rotate_flag = false
                     
                     let nav = UINavigationController(rootViewController: viewcontroller)
                     nav.isNavigationBarHidden = true
@@ -1208,7 +1228,18 @@ extension VideoViewController{
             }
         }
     }
-    
+    func printSubviews(view: UIView, indent: String = "") {
+        for subview in view.subviews {
+            subview.isHidden = true
+            print("Hiding \(subview)")
+        }
+    }
+    func printNotHideSubviews(view: UIView, indent: String = "") {
+        for subview in view.subviews {
+            subview.isHidden = false
+            print("Unhiding \(subview)")
+        }
+    }
     func isView(_ view: UIView, withinRadius radius: CGFloat, of targetView: UIView) -> Bool {
         let viewCenter = backgroundVideoContainer.convert(view.center, from: view.superview)
         let targetCenter = backgroundVideoContainer.convert(targetView.center, from: targetView.superview)
@@ -1354,17 +1385,17 @@ extension VideoViewController {
         self.get_api_request("\(BaseURLOffice)video/\(id)/entities\(loadContents)", headers: headersCommon).responseDecodable(of: ProductVideoModel.self) { response in
             //            print(response)
             if response.error != nil {
-                self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
+                //self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
             }else{
                 if let responseData = response.data {
                     do {
                         let welcome = try JSONDecoder().decode(ProductVideoModel.self, from: responseData)
                         self.ProductVideoData = welcome
                      } catch {
-                        self.ShowAlert(title: "Error", message: "Failed to decode response: \(error.localizedDescription)")
+                        //self.ShowAlert(title: "Error", message: "Failed to decode response: \(error.localizedDescription)")
                     }
                 }else{
-                    self.ShowAlert(title: "Error", message: "Something Went Wrong")
+                 //   self.ShowAlert(title: "Error", message: "Something Went Wrong")
                 }
             }
             DispatchQueue.main.async {
@@ -1385,11 +1416,12 @@ extension VideoViewController {
                         let welcome = try JSONDecoder().decode(MappingDataModel.self, from: responseData)
                         self.mappingData = welcome
                     } catch {
-                        self.ShowAlert(title: "Error", message: "Failed to decode response: \(error.localizedDescription)")
+                       // self.ShowAlert(title: "Error", message: "Failed to decode response: \(error.localizedDescription)")
                     }
                 }
             case .failure(let error):
-                self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+               // self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+                print("\(error.localizedDescription)")
             }
             DispatchQueue.main.async {
                 self.stop_loading()
@@ -1417,7 +1449,7 @@ extension VideoViewController {
         self.post_api_request_withJson("\(BaseURLOffice)video/\(id)\(loadContents)", params: params, headers: headersCommon).responseDecodable(of: VideoDataModel.self) { response in
             //            print(response)
             if response.error != nil {
-                self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
+               // self.ShowAlert(title: "Error", message: response.error?.localizedDescription ?? "Something Went Wrong")
             }else{
                 if let responseData = response.data {
                     do {
@@ -1428,11 +1460,11 @@ extension VideoViewController {
                         self.GetProductMappingDetail(productmappingID: productmappingID)
                         self.getStatusList()
                     } catch {
-                        self.ShowAlert(title: "Error", message: "Failed to decode response: \(error.localizedDescription)")
+                       // self.ShowAlert(title: "Error", message: "Failed to decode response: \(error.localizedDescription)")
                     }
                     
                 }else{
-                    self.ShowAlert(title: "Error", message: "Something Went Wrong")
+                    //self.ShowAlert(title: "Error", message: "Something Went Wrong")
                 }
             }
             DispatchQueue.main.async {
@@ -1440,18 +1472,21 @@ extension VideoViewController {
             }
         }
     }
-    func getStatusList(){
-        
+    func getStatusList() {
         filterEventData = Dictionary(grouping: VideoData?.events ?? [], by: { String($0.id ?? 0) })
-    
         for (processStatus, models) in filterEventData {
-           let filteredModels = models.filter { $0.type != .empty }
+            let filteredModels = models.filter {
+                $0.type != .empty && $0.id != nil && $0.t != nil && $0.type != nil
+            }
             let sortedModels = filteredModels.sorted { (model1, model2) in
                 return (model1.t ?? 0) < (model2.t ?? 0)
             }
-            print("Sorted Models: \(sortedModels)")
+            if processStatus == "19" {
+                print("Sorted Models: \(sortedModels)")
+            }
             filterEventData[processStatus] = sortedModels
         }
+        
     }
     func GetCartDetail(){
         start_loading()
@@ -1462,7 +1497,8 @@ extension VideoViewController {
                 self.cartCountBTN.setTitle("\(self.cartData?.count ?? 0)", for: .normal)
                 self.bigCartCountBTN.setTitle("\(self.cartData?.count ?? 0)", for: .normal)
             case .failure(let error):
-                self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+               // self.ShowAlert(title: "Error", message: "\(error.localizedDescription)")
+                print("\(error.localizedDescription)")
             }
             DispatchQueue.main.async {
                 self.stop_loading()
@@ -1722,9 +1758,9 @@ extension VideoViewController {
                 DispatchQueue.main.async {
                     if let json = response.value as? [String: Any],
                        let message = json["message"] as? String {
-                        self.ShowAlert(title: "Error", message: message)
+                      //  self.ShowAlert(title: "Error", message: message)
                     } else {
-                        self.ShowAlert(title: "Error", message: "Not found. The resource doesn't exist.")
+                      //  self.ShowAlert(title: "Error", message: "Not found. The resource doesn't exist.")
                     }
                     completion(false)
                 }
@@ -1738,7 +1774,7 @@ extension VideoViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.ShowAlert(title: "Error", message: error.localizedDescription)
+                 //   self.ShowAlert(title: "Error", message: error.localizedDescription)
                     completion(false)
                 }
             }
@@ -1862,3 +1898,4 @@ extension VideoViewController {
     }
     
 }
+

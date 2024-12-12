@@ -115,11 +115,7 @@ public class DefaultOrientationHandler: OrientationHandler {
     public init() {}
 
     public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if rotateFlag {
-            return .landscape
-        } else {
-            return [.portrait, .landscape]
-        }
+        return rotateFlag ? .landscape : .portrait
     }
 }
 
