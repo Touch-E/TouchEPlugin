@@ -89,7 +89,7 @@ public class MyCartVC: UIViewController {
         } else {
             self.totalCostCalculate()
             if selectedCartDataID.count > 0{
-                let vc = mainStoryboard.instantiateViewController(withIdentifier: "CheckOutVC") as! CheckOutVC
+                let vc = CheckOutVC()//mainStoryboard.instantiateViewController(withIdentifier: "CheckOutVC") as! CheckOutVC
                 vc.modalPresentationStyle = .custom
                 vc.selectedCartDataId = selectedCartDataID
                 self.navigationController?.pushViewController(vc, animated: true)

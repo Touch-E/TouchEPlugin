@@ -58,6 +58,9 @@ public class CheckOutVC: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        if let view = Bundle.module.loadNibNamed("CheckOutVC", owner: self, options: nil)?.first as? UIView {
+            self.view = view
+        }
         configuration()
         GetCardList()
         GetAddressList()
