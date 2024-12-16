@@ -1228,26 +1228,7 @@ extension VideoViewController{
             }
         }
     }
-    func printSubviews(view: UIView, indent: String = "") {
-        for subview in view.subviews {
-            subview.isHidden = true
-            print("Hiding \(subview)")
-        }
-    }
-    func printNotHideSubviews(view: UIView, indent: String = "") {
-        for subview in view.subviews {
-            subview.isHidden = false
-            print("Unhiding \(subview)")
-        }
-    }
-    func isView(_ view: UIView, withinRadius radius: CGFloat, of targetView: UIView) -> Bool {
-        let viewCenter = backgroundVideoContainer.convert(view.center, from: view.superview)
-        let targetCenter = backgroundVideoContainer.convert(targetView.center, from: targetView.superview)
-        
-        let distance = sqrt(pow(viewCenter.x - targetCenter.x, 2) + pow(viewCenter.y - targetCenter.y, 2))
-        
-        return distance <= radius
-    }
+   
     
     @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
            let location = gesture.location(in: view)
@@ -1267,27 +1248,7 @@ extension VideoViewController{
        }
     
 
-    func startDragging(_ cell: UICollectionViewCell, from indexPath: IndexPath) {
-        
-        self.cloaseUV.isHidden = false
-        self.addtoCartBackUV.isHidden = false
-        self.safeArayUV.isHidden = false
-        self.viewBgSeekBar.isHidden = true
-        self.acscheduleDispatch(after: 4)
-        
-        
-        initialIndexPath = indexPath
-        draggedCell = cell
-        self.productData = prodcutARY[initialIndexPath!.item]
-        
-        // Take a snapshot of the cell and add it to the main view
-        if let cellSnapshot = cell.snapshotView(afterScreenUpdates: true) {
-            cellSnapshot.frame = view.convert(cell.frame, from: productCV)
-            view.addSubview(cellSnapshot)
-            dragPlaceholderView = cellSnapshot
-            cell.isHidden = true
-        }
-    }
+    
     
     func updateDragging(at location: CGPoint) {
         guard let placeholderView = dragPlaceholderView else { return }
