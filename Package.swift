@@ -92,7 +92,10 @@ let package = Package(
                 .copy("Controller/VideoViewController.xib"),
                 .copy("Controller/ProdutDetailsVC.xib"),
                 .copy("Controller/ProfileVC.xib"),
-                .copy("Controller/VideoDetailsFromOtherVC.xib")
+                .copy("Controller/VideoDetailsFromOtherVC.xib"),
+                .copy("pre-roll-02.mp4"),
+                .copy("ic_blueScan.png"), // Add your images
+                .copy("ic_whiteScan.png")
                 
             ]
         ),

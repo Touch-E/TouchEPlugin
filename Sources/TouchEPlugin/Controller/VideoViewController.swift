@@ -56,6 +56,8 @@ class VideoViewController: UIViewController {
     var draggedCell: UICollectionViewCell?
     var initialIndexPath: IndexPath?
     var dragPlaceholderView: UIView?
+    var isProductAvblARY = [Product]()
+    var isAnimating = false
     
     
     public struct Identifiers {
@@ -87,7 +89,16 @@ class VideoViewController: UIViewController {
     @IBOutlet weak var bigCartIMG: UIImageViewX!
     @IBOutlet weak var bigCartCountBTN: UIButtonX!
     @IBOutlet weak var addToCartMessageLBL: UILabel!
+    @IBOutlet weak var introVideoUV: UIView!
+    @IBOutlet weak var skipIntroUV: UIViewX!
+    @IBOutlet weak var skipIntroProgressUV: UIViewX!
+    @IBOutlet weak var progressViewWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var introReplayUV: UIViewX!
+    
+    @IBOutlet weak var isProductAvailableUV: UIViewX!
+    @IBOutlet weak var isProductIMG: UIImageView!
+    @IBOutlet weak var isProdcutAvblUVWidth: NSLayoutConstraint!
     
     var smallVideoUV: UIView!
     var originalFrame: CGRect!
@@ -95,6 +106,12 @@ class VideoViewController: UIViewController {
     var splayerLayer: AVPlayerLayer?
     var playerViewController: AVPlayerViewController!
     var smallVideoString = ""
+    
+    var IntroPlayer:AVPlayer?
+    var IntroPlayerLayer: AVPlayerLayer?
+    var IntroPlayerViewController: AVPlayerViewController!
+    var IntroVideoString = "https://touche-backoffice.s3.amazonaws.com/videos/1735188471755_08208397907939027.mp4"
+    var timeObserver: Any?
     
     override func viewDidLoad() {
         
@@ -109,12 +126,112 @@ class VideoViewController: UIViewController {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
         productCV.addGestureRecognizer(longPressGesture)
         
+//        cloaseUV.isHidden = false
+//        viewBgSeekBar.isHidden = false
+//        safeArayUV.isHidden = false
+//        addtoCartBackUV.isHidden = true
+//        scheduleDispatch(after: 8)
+        
+        self.smallVideoUV = UIView(frame: CGRect(x: UIScreen.main.bounds.size.width - 300, y: 40, width: 150, height: 100))
+        self.smallVideoUV.backgroundColor = .black
+        self.smallVideoUV.layer.cornerRadius = 10
+        self.smallVideoUV.layer.borderColor = UIColor.white.cgColor
+        self.smallVideoUV.layer.borderWidth = 1
+        self.smallVideoUV.clipsToBounds = true
+
+        self.view.addSubview(self.smallVideoUV)
+        self.originalFrame = self.smallVideoUV.frame
+        self.smallVideoUV.isHidden = true
+        
+        self.GetVideoDetail(id: "\(self.VideoListDic?.id ?? 0)")
+        self.GetEntitiesDetail(id: "\(self.VideoListDic?.id ?? 0)")
+      
+        DispatchQueue.main.async { [self] in
+            IntroPlayerLayer?.frame = self.introVideoUV.bounds
+            
+            // Get the path to the local video
+            
+            guard let fileURL = Bundle.module.url(forResource: "pre-roll-02", withExtension: "mp4") else {
+                print("Local video file not found in Swift Package")
+                return
+            }
+           // let fileURL = URL(fileURLWithPath: filePath)
+            let playerItem = AVPlayerItem(url: fileURL)
+            IntroPlayer = AVPlayer(playerItem: playerItem)
+            IntroPlayerLayer = AVPlayerLayer(player: IntroPlayer)
+            IntroPlayerLayer?.videoGravity = .resizeAspect
+            self.introVideoUV.layer.addSublayer(IntroPlayerLayer!)
+            IntroPlayer?.play()
+
+            // Add observer for video completion
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(videoDidFinishPlaying(_:)),
+                name: .AVPlayerItemDidPlayToEndTime,
+                object: playerItem
+            )
+            
+            // Add periodic time observer
+            let interval = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            timeObserver = IntroPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] currentTime in
+                guard let self = self, let duration = self.IntroPlayer?.currentItem?.duration else { return }
+                let totalSeconds = CMTimeGetSeconds(duration)
+                let currentSeconds = CMTimeGetSeconds(currentTime)
+                
+                if totalSeconds > 0 {
+                    let progress = CGFloat(currentSeconds / totalSeconds)
+                    self.updateProgressView(progress: progress)
+                }
+            }
+        }
+        
+        
+//        DispatchQueue.main.async {
+//
+//            var image = ""
+//            image = profileData.value(forKey: "imageUrl") as? String ?? ""
+//            if let encodedUrlString = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+//                self.userProfileIMG.sd_setImage(with: URL(string: encodedUrlString), placeholderImage: placeholderImg)
+//                self.userProfileIMG.contentMode = .scaleAspectFill
+//            }
+//            self.videoTitleLB.text = self.VideoListDic?.name ?? ""
+//            self.GetVideoDetail(id: "\(self.VideoListDic?.id ?? 0)")
+//            self.GetEntitiesDetail(id: "\(self.VideoListDic?.id ?? 0)")
+//            self.start_loading()
+//            self.pastVideoPlayer()
+//            self.centerPlayerLayer()
+//            self.Configurecollection()
+//            self.GetCartDetail()
+//            //self.smallVideoPlayer()
+//
+//            self.smallVideoUV = UIView(frame: CGRect(x: UIScreen.main.bounds.size.width - 200, y: 40, width: 150, height: 100))
+//            self.smallVideoUV.backgroundColor = .black
+//            self.smallVideoUV.layer.cornerRadius = 10
+//            self.smallVideoUV.layer.borderColor = UIColor.white.cgColor
+//            self.smallVideoUV.layer.borderWidth = 1
+//            self.smallVideoUV.clipsToBounds = true
+//
+//            self.view.addSubview(self.smallVideoUV)
+//            self.originalFrame = self.smallVideoUV.frame
+//            self.smallVideoUV.isHidden = true
+//            print(self.cloaseUV.frame.size.width)
+//        }
+        
+    }
+    @objc func videoDidFinishPlaying(_ notification: Notification) {
+       mainVideoLoad()
+    }
+    func mainVideoLoad(){
+        
+        introVideoUV.isHidden = true
+        skipIntroUV.isHidden = true
+        introReplayUV.isHidden = true
+        
         cloaseUV.isHidden = false
         viewBgSeekBar.isHidden = false
         safeArayUV.isHidden = false
         addtoCartBackUV.isHidden = true
         scheduleDispatch(after: 8)
-      
         
         DispatchQueue.main.async {
             
@@ -125,34 +242,21 @@ class VideoViewController: UIViewController {
                 self.userProfileIMG.contentMode = .scaleAspectFill
             }
             self.videoTitleLB.text = self.VideoListDic?.name ?? ""
-            self.GetVideoDetail(id: "\(self.VideoListDic?.id ?? 0)")
-            self.GetEntitiesDetail(id: "\(self.VideoListDic?.id ?? 0)")
+//            self.GetVideoDetail(id: "\(self.VideoListDic?.id ?? 0)")
+//            self.GetEntitiesDetail(id: "\(self.VideoListDic?.id ?? 0)")
             self.start_loading()
             self.pastVideoPlayer()
             self.centerPlayerLayer()
             self.Configurecollection()
             self.GetCartDetail()
             //self.smallVideoPlayer()
-            
-            self.smallVideoUV = UIView(frame: CGRect(x: UIScreen.main.bounds.size.width - 200, y: 40, width: 150, height: 100))
-            self.smallVideoUV.backgroundColor = .black
-            self.smallVideoUV.layer.cornerRadius = 10
-            self.smallVideoUV.layer.borderColor = UIColor.white.cgColor
-            self.smallVideoUV.layer.borderWidth = 1
-            self.smallVideoUV.clipsToBounds = true
-            
-            self.view.addSubview(self.smallVideoUV)
-            self.originalFrame = self.smallVideoUV.frame
-            self.smallVideoUV.isHidden = true
-            print(self.cloaseUV.frame.size.width)
         }
-        
     }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer?.frame = self.backgroundVideoContainer.bounds
         splayerLayer?.frame = self.smallVideoUV.bounds
+        IntroPlayerLayer?.frame = self.introVideoUV.bounds
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -183,6 +287,13 @@ class VideoViewController: UIViewController {
         pauseTimer()
         player!.pause()
     
+    }
+    func updateProgressView(progress: CGFloat) {
+        let maxWidth = skipIntroUV.bounds.width
+        progressViewWidth.constant = maxWidth * progress
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
     }
     @objc func playButtonTapped() {
         let viewcontroller = VovVC.storyboardInstance()
@@ -224,6 +335,7 @@ class VideoViewController: UIViewController {
             playButton.widthAnchor.constraint(equalToConstant: 80),
             playButton.heightAnchor.constraint(equalToConstant: 80)
         ])
+        self.view.layoutIfNeeded()
 //        let liveVideoURL = URL(string: VideoString)!
 //        getLiveVideoFrameCount(url: liveVideoURL) { frameCount in
 //            if let frameCount = frameCount {
@@ -238,6 +350,19 @@ class VideoViewController: UIViewController {
         productCV.dataSource = self
         productCV.register(UINib(nibName: Identifiers.kVideoProductCVCell, bundle: Bundle.module), forCellWithReuseIdentifier: Identifiers.kVideoProductCVCell)
         
+    }
+    @IBAction func skipIntroClick_Action(_ sender: UIButton) {
+        IntroPlayer?.pause()
+        IntroPlayer?.replaceCurrentItem(with: nil)
+        mainVideoLoad()
+    }
+    @IBAction func replayIntroClick_Action(_ sender: Any) {
+        IntroPlayer?.seek(to: .zero) { [weak self] completed in
+              if completed {
+                  // Play the video from the beginning
+                  self?.IntroPlayer?.play()
+              }
+          }
     }
     @IBAction func cartClick_Action(_ sender: Any) {
         let viewcontroller = MyCartVC.storyboardInstance()
@@ -317,6 +442,9 @@ class VideoViewController: UIViewController {
             checkVOVAvailable(currentFrame: currentFrameNumber)
         }
         updateEventFrames(CTTime)
+        DispatchQueue.main.async {
+            self.checkIsProductAvailableOnScreen()
+        }
         
     }
     func pauseTimer() {
@@ -912,12 +1040,12 @@ extension VideoViewController{
                 let eventTimeDouble = Double(formattedEventTime)
 
                 if event.type?.rawValue == "I" {
-//                    if eventTimeDouble! == minTime {//maxTime && eventTimeDouble! <= minTime {
-//                        print(Int(event.id ?? 0))
-//                        DispatchQueue.main.async {
-//                            self.checkDataWithMapping(eventId: Int(event.id ?? 0), etime: eventTime)
-//                        }
-//                    }
+                    if eventTimeDouble! == minTime {//maxTime && eventTimeDouble! <= minTime {
+                        print(Int(event.id ?? 0))
+                        DispatchQueue.main.async {
+                            self.checkDataWithMapping(eventId: Int(event.id ?? 0), etime: eventTime)
+                        }
+                    }
                 }else{
                     if event.type?.rawValue == "O"{
                         if eventTimeDouble! == minTime {
@@ -939,7 +1067,7 @@ extension VideoViewController{
                 if objectType == "Product" {
                     findProductObject(id: entityId, etime: etime, eventID: eventId)
                 } else {
-                    findPersonObject(id: entityId, eventID: eventId)
+                    //findPersonObject(id: entityId, eventID: eventId)
                 }
             }
         }
@@ -955,18 +1083,20 @@ extension VideoViewController{
     }
     func findEventForObject(id:Int, product : Product, etime: Int, eventID: Int){
         
-        VideoData?.events?.compactMap { event in
-            guard let proId = event.id, let ctime = event.t else {
-                return nil
-            }
-            
-            if proId == eventID && ctime == etime {
-                return event
-            }
-            return nil
-        }.forEach { validEvent in
-            showProduct(id: id, eventObj: validEvent, tempProduct: product, eventID: eventID)
-        }
+        self.isProductAvblARY.append(product)
+        print("isProductAvblARY add count \(self.isProductAvblARY.count)")
+//        VideoData?.events?.compactMap { event in
+//            guard let proId = event.id, let ctime = event.t else {
+//                return nil
+//            }
+//
+//            if proId == eventID && ctime == etime {
+//                return event
+//            }
+//            return nil
+//        }.forEach { validEvent in
+//            showProduct(id: id, eventObj: validEvent, tempProduct: product, eventID: eventID)
+//        }
         
         
     }
@@ -1018,6 +1148,7 @@ extension VideoViewController{
         ProductVideoData?.products.flatMap { products in
             products.first { $0.id == id }
         }.map { product in
+            self.isProductAvblARY = self.isProductAvblARY.filter { $0.id != product.id }
             removeProduct(id: id, eventID: eventID, prodcut: product)
         }
         
@@ -1184,6 +1315,22 @@ extension VideoViewController{
         
     }
     
+    func checkIsProductAvailableOnScreen() {
+        if self.isProductAvblARY.count > 0 {
+            if self.isProductIMG.image != UIImage(named: "ic_blueScan", in: .module, compatibleWith: nil) {
+                self.isProductIMG.image = UIImage(named: "ic_blueScan", in: .module, compatibleWith: nil)
+                if !isAnimating {
+                    self.inAnimateView() // Start animation only if not running
+                }
+            }
+        } else {
+            if self.isProductIMG.image != UIImage(named: "ic_whiteScan", in: .module, compatibleWith: nil) {
+                self.isProductIMG.image = UIImage(named: "ic_whiteScan", in: .module, compatibleWith: nil)
+            }
+        }
+    }
+
+    
     func removeProduct(id:Int, eventID: Int, prodcut:Product){
         for subview in backgroundVideoContainer.subviews {
             
@@ -1201,6 +1348,28 @@ extension VideoViewController{
             //}
         }
     }
+    
+    func inAnimateView() {
+        isAnimating = true // Mark animation as running
+
+        // First animation: Increase the width
+        isProdcutAvblUVWidth.constant = 121
+        UIView.animate(withDuration: 2.0, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            // Add a 3-second delay before the second animation
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                // Second animation: Reduce the width
+                self.isProdcutAvblUVWidth.constant = 50
+                UIView.animate(withDuration: 2.0, animations: {
+                    self.view.layoutIfNeeded()
+                }, completion: { _ in
+                   // self.isAnimating = false // Mark animation as finished
+                })
+            }
+        })
+    }
+    
     func animatePositionChange(tempView:UIView, tempProduct : Product) {
         let newX: CGFloat = 20//50 + CGFloat(self.prodcutARY.count * 50)
         let newY: CGFloat = 50 + CGFloat(self.prodcutARY.count * 50)//self.cloaseUV.frame.origin.y
@@ -1898,4 +2067,3 @@ extension VideoViewController {
     }
     
 }
-
