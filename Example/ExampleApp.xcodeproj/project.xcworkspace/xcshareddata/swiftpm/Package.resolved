@@ -1,0 +1,69 @@
+{
+  "originHash" : "db9d9fdbafd6d8af5e9ba6ee83d487739c9053cf18ebb3041e3ca8b150a4e6c6",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "aws-sdk-ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/aws-amplify/aws-sdk-ios-spm.git",
+      "state" : {
+        "revision" : "b5011ab6ba933fd05b6de1dd2564b2aade52d9b8",
+        "version" : "2.40.0"
+      }
+    },
+    {
+      "identity" : "cosmos",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/evgenyneu/Cosmos.git",
+      "state" : {
+        "revision" : "1d722aefaba9eafa22e32da46ce473e051c4e445",
+        "version" : "24.0.0"
+      }
+    },
+    {
+      "identity" : "fspagerview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/olbartek/FSPagerView.git",
+      "state" : {
+        "revision" : "f07d67c1d0a19cadfb94014d4d9653ccdf25169d",
+        "version" : "0.8.3"
+      }
+    },
+    {
+      "identity" : "nvactivityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ninjaprox/NVActivityIndicatorView.git",
+      "state" : {
+        "revision" : "121455c4e630fcb95aaefd7e4257b0c2e3cfe6d5",
+        "version" : "5.2.0"
+      }
+    },
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage.git",
+      "state" : {
+        "revision" : "10d06f6a33bafae8c164fbfd1f03391f6d4692b3",
+        "version" : "5.20.0"
+      }
+    },
+    {
+      "identity" : "toucheplugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Touch-E/TouchEPlugin.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6720be5cd8b58934675d8f94bd97d18c6f85e656"
+      }
+    }
+  ],
+  "version" : 3
+}
