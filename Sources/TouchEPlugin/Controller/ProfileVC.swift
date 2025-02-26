@@ -229,7 +229,7 @@ extension ProfileVC {
     func GetAddressList(){
         
         start_loading()
-        self.get_api_request("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/address/", headers: headersCommon).responseDecodable(of: AddressData.self) { response in
+        self.get_api_request("\(BaseURL)user/\(UserID)/address/", headers: headersCommon).responseDecodable(of: AddressData.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -265,7 +265,7 @@ extension ProfileVC {
         ] as [String : Any]
         //print(params)
         start_loading()
-        self.put_api_request_withJson("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/address/\(self.addressListData?[indexx].id ?? 0)", params: params, headers: headersCommon).responseData { response in
+        self.put_api_request_withJson("\(BaseURL)user/\(UserID)/address/\(self.addressListData?[indexx].id ?? 0)", params: params, headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -281,7 +281,7 @@ extension ProfileVC {
     
     func deleteAddress(indexx: Int){
         start_loading()
-        self.delete_api_request("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/address/\(self.addressListData?[indexx].id ?? 0)", headers: headersCommon).responseData { response in
+        self.delete_api_request("\(BaseURL)user/\(UserID)/address/\(self.addressListData?[indexx].id ?? 0)", headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -298,7 +298,7 @@ extension ProfileVC {
     func GetCardList(){
         
         start_loading()
-        self.get_api_request("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/creditCards", headers: headersCommon).responseDecodable(of: CardModel.self) { response in
+        self.get_api_request("\(BaseURL)user/\(UserID)/creditCards", headers: headersCommon).responseDecodable(of: CardModel.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -323,7 +323,7 @@ extension ProfileVC {
     
     func deleteCard(indexx: Int){
         start_loading()
-        self.delete_api_request("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/creditCards/\(self.cardListData?[indexx].id ?? 0)", headers: headersCommon).responseData { response in
+        self.delete_api_request("\(BaseURL)user/\(UserID)/creditCards/\(self.cardListData?[indexx].id ?? 0)", headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:

@@ -636,7 +636,7 @@ extension MyCartVC {
     
     func GetAddressList(){
         start_loading()
-        self.get_api_request("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/address/", headers: headersCommon).responseDecodable(of: AddressData.self) { response in
+        self.get_api_request("\(BaseURL)user/\(UserID)/address/", headers: headersCommon).responseDecodable(of: AddressData.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -660,7 +660,7 @@ extension MyCartVC {
     
 //    func postExampleWithAuthorizationToken() {
 //        // 1. Create a URL with the API endpoint
-//        guard let url = URL(string: "https://api-cluster.system.touchetv.com/backoffice/api/v1/cart/users/\(UserID)/products") else {
+//        guard let url = URL(string: "\(BaseURLOffice)cart/users/\(UserID)/products") else {
 //            print("Invalid URL")
 //            return
 //        }

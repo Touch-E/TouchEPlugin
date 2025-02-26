@@ -282,7 +282,7 @@ extension OrderDetailVC{
         ] as [String : Any]
         //print(params)
         start_loading()
-        self.post_api_request_withJson("https://api-cluster.system.touchetv.com/backoffice/api/v1/reviews/", params: params, headers: headersCommon).responseData { response in
+        self.post_api_request_withJson("\(BaseURLOffice)reviews/", params: params, headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -310,7 +310,7 @@ extension OrderDetailVC{
         ] as [String : Any]
         //print(params)
         start_loading()
-        self.put_api_request_withJson("https://api-cluster.system.touchetv.com/backoffice/api/v1/reviews/\(reveiwobj.id ?? 0)", params: params, headers: headersCommon).responseData { response in
+        self.put_api_request_withJson("\(BaseURLOffice)reviews/\(reveiwobj.id ?? 0)", params: params, headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -337,7 +337,7 @@ extension OrderDetailVC{
         ] as [String : Any]
         //print(params)
         start_loading()
-        self.post_api_request_withJson("https://api-cluster.system.touchetv.com/backoffice/api/v1/reviews/", params: params, headers: headersCommon).responseData { response in
+        self.post_api_request_withJson("\(BaseURLOffice)reviews/", params: params, headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -365,7 +365,7 @@ extension OrderDetailVC{
         ] as [String : Any]
         //print(params)
         start_loading()
-        self.put_api_request_withJson("https://api-cluster.system.touchetv.com/backoffice/api/v1/reviews/\(reveiwobj.id ?? 0)", params: params, headers: headersCommon).responseData { response in
+        self.put_api_request_withJson("\(BaseURLOffice)reviews/\(reveiwobj.id ?? 0)", params: params, headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:

@@ -50,7 +50,7 @@ public class ChangePasswordVC: UIViewController {
         print(params)
         start_loading()
         
-        self.post_api_request_withJson("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/changePassword\(loadContents)", params: params, headers: headersCommon).responseData { response in
+        self.post_api_request_withJson("\(BaseURL)user/changePassword\(loadContents)", params: params, headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success(let data):

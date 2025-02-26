@@ -804,7 +804,7 @@ extension CheckOutVC {
     func GetAddressList(){
         
         start_loading()
-        self.get_api_request("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/address/", headers: headersCommon).responseDecodable(of: AddressData.self) { response in
+        self.get_api_request("\(BaseURL)user/\(UserID)/address/", headers: headersCommon).responseDecodable(of: AddressData.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -844,7 +844,7 @@ extension CheckOutVC {
     func GetCardList(){
         
         start_loading()
-        self.get_api_request("https://api-cluster.system.touchetv.com/backoffice-user/api/v1/user/\(UserID)/creditCards", headers: headersCommon).responseDecodable(of: CardModel.self) { response in
+        self.get_api_request("\(BaseURL)user/\(UserID)/creditCards", headers: headersCommon).responseDecodable(of: CardModel.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -874,7 +874,7 @@ extension CheckOutVC {
     func GetCartDetail(){
         
         start_loading()
-        self.get_api_request("https://api-cluster.system.touchetv.com/backoffice/api/v1/cart/users/\(UserID)/products?loadContents=true&loadHierarchy=true&loadProjects=true&showOnlyPublished=true&loadAsTree=true", headers: headersCommon).responseDecodable(of: CartData.self) { response in
+        self.get_api_request("\(BaseURLOffice)cart/users/\(UserID)/products?loadContents=true&loadHierarchy=true&loadProjects=true&showOnlyPublished=true&loadAsTree=true", headers: headersCommon).responseDecodable(of: CartData.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -947,7 +947,7 @@ extension CheckOutVC {
     func GetCartDetailForConformOrder(){
         
         start_loading()
-        self.get_api_request("https://api-cluster.system.touchetv.com/backoffice/api/v1/cart/users/\(UserID)/products?loadContents=true&loadHierarchy=true&loadProjects=true&showOnlyPublished=true&loadAsTree=true", headers: headersCommon).responseDecodable(of: CartData.self) { response in
+        self.get_api_request("\(BaseURLOffice)cart/users/\(UserID)/products?loadContents=true&loadHierarchy=true&loadProjects=true&showOnlyPublished=true&loadAsTree=true", headers: headersCommon).responseDecodable(of: CartData.self) { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -1077,7 +1077,7 @@ extension CheckOutVC {
 //                    "Content-Type": "application/json"
 //                ]
                 start_loading()
-                AF.request("https://api-cluster.system.touchetv.com/backoffice/api/v1/order/request", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headersCommon).responseData { response in
+                AF.request("\(BaseURLOffice)order/request", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headersCommon).responseData { response in
                     if let request = response.request {
                             if let bodyData = request.httpBody, let bodyString = String(data: bodyData, encoding: .utf8) {
                                 print("Request Parameters: \(bodyString)")
@@ -1103,7 +1103,7 @@ extension CheckOutVC {
     func GetProdcutDetail() {
         
         start_loading()
-        AF.request("https://api-cluster.system.touchetv.com/backoffice/api/v1/cart/users/\(UserID)/products", method: .get, headers: headersCommon).responseData { response in
+        AF.request("\(BaseURLOffice)cart/users/\(UserID)/products", method: .get, headers: headersCommon).responseData { response in
             switch response.result {
             case .success(let value):
                 let alertController = UIAlertController(title: "", message: "Payment Successful!", preferredStyle: .alert)
@@ -1154,7 +1154,7 @@ extension CheckOutVC {
         ] as [String : Any]
         
         start_loading()
-        self.put_api_request_withJson("https://api-cluster.system.touchetv.com/backoffice/api/v1/cart/users/\(UserID)/products/\(selectItem.id ?? 0)", params: params, headers: headersCommon).responseJSON(completionHandler: { response in
+        self.put_api_request_withJson("\(BaseURLOffice)cart/users/\(UserID)/products/\(selectItem.id ?? 0)", params: params, headers: headersCommon).responseJSON(completionHandler: { response in
             print(response.result)
             switch response.result {
             case .success:
@@ -1171,7 +1171,7 @@ extension CheckOutVC {
     func deleteCartItem(dic: NSMutableDictionary ,selectItem:CartDataModel,completion: @escaping (Bool) -> Void){
         
         start_loading()
-        self.delete_api_request("https://api-cluster.system.touchetv.com/backoffice/api/v1/cart/users/\(UserID)/products/\(selectItem.id ?? 0)", headers: headersCommon).responseData { response in
+        self.delete_api_request("\(BaseURLOffice)cart/users/\(UserID)/products/\(selectItem.id ?? 0)", headers: headersCommon).responseData { response in
             print(response.result)
             switch response.result {
             case .success:
